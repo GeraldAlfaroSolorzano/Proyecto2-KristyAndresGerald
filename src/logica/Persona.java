@@ -10,7 +10,7 @@ import java.time.LocalDate;
  *
  * @author galfa
  */
-public class Persona {
+public abstract class Persona {
     protected int cedula;
     protected String nombre;
     protected String direccion;
