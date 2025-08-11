@@ -1,0 +1,82 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package datos;
+
+import java.util.ArrayList;
+import logica.Proyectos;
+
+/**
+ *
+ * @author krist
+ */
+public class AlmacenamientoProyectos {
+    /**
+     * Lista que almacena todos los proyectos registrados.
+     */
+     private ArrayList<Proyectos> listaProyectos;
+
+     
+     /**
+     * Constructor que inicializa la lista de proyectos.
+     */
+      public AlmacenamientoProyectos(){
+        listaProyectos = new ArrayList<>();
+    }
+      
+      /**
+     * Inserta un nuevo proyecto en la lista.
+     */
+       public void insertar(Proyectos proyecto) {
+        listaProyectos.add(proyecto);
+    }
+       
+        /**
+     * Busca un proyecto por su ID.
+     * 
+     * @param idProyecto El ID del proyecto a buscar.
+     * @return El objeto {@link Proyectos} si se encuentra, o {@code null} si no existe.
+     */
+    public Proyectos buscar(int idProyecto) {
+        for (Proyectos p : listaProyectos) {
+            if (p.getIdProyecto() == idProyecto) {
+                return p;
+            }
+        }
+        return null;
+    }
+        /**
+     * Modifica un proyecto existente en la lista.
+     * 
+     * @param proyectoModificado El objeto {@link Proyectos} con los datos actualizados.
+     * @return {@code true} si se modificó correctamente, {@code false} si no se encontró el proyecto.
+     */
+    public boolean modificar(Proyectos proyectoModificado) {
+        for (int i = 0; i < listaProyectos.size(); i++) {
+            if (listaProyectos.get(i).getIdProyecto() == proyectoModificado.getIdProyecto()) {
+                listaProyectos.set(i, proyectoModificado);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Elimina un proyecto de la lista según su ID.
+     * 
+     * @param idProyecto El ID del proyecto a eliminar.
+     * @return {@code true} si se eliminó correctamente, {@code false} si no se encontró el proyecto.
+     */
+    public boolean eliminar(int idProyecto) {
+        return listaProyectos.removeIf(p -> p.getIdProyecto() == idProyecto);
+    }
+    /**
+     * Devuelve la lista completa de proyectos registrados.
+     * 
+     * @return Lista de objetos Proyectos.
+     */
+    public ArrayList<Proyectos> mostrar() {
+        return listaProyectos;
+    }
+}

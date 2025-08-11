@@ -19,8 +19,19 @@ public class Proyectos {
     private int duracionDias;
     private String estado;
     private int porcAvance;
-//constructor lleno 
+//constructor lleno
 
+    /**
+     * Constructor completo que inicializa todos los atributos del proyecto.
+     *
+     * @param idProyecto Identificador único del proyecto.
+     * @param nomProyecto Nombre del proyecto.
+     * @param fechInicio Fecha de inicio del proyecto.
+     * @param fechFin Fecha de finalización del proyecto.
+     * @param duracionDias Duración del proyecto en días.
+     * @param estado Estado actual del proyecto.
+     * @param porcAvance Porcentaje de avance del proyecto.
+     */
     public Proyectos(int idProyecto, String nomProyecto, LocalDate fechInicio, LocalDate fechFin, int duracionDias, String estado, int porcAvance) {
         this.idProyecto = idProyecto;
         this.nomProyecto = nomProyecto;
@@ -31,6 +42,9 @@ public class Proyectos {
         this.porcAvance = porcAvance;
     }
 //constructor vacio
+ /**
+     * Constructor vacío que inicializa los atributos con valores por defecto.
+     */
 
     public Proyectos() {
         this.idProyecto = 0;
@@ -43,7 +57,6 @@ public class Proyectos {
     }
 
     //set y get 
-
     public int getIdProyecto() {
         return idProyecto;
     }
@@ -99,13 +112,20 @@ public class Proyectos {
     public void setPorcAvance(int porcAvance) {
         this.porcAvance = porcAvance;
     }
-    
+
     //metodo para calcular avance 
-     public int calcAvance(int idProyecto) {
+     /**
+     * Calcula el porcentaje de avance de un proyecto dado su ID.
+     * 
+     * @param idProyecto ID del proyecto a consultar.
+     * @return Porcentaje de avance si el ID coincide, -1 en caso contrario.
+     */
+
+    public int calcAvance(int idProyecto) {
         if (this.idProyecto == idProyecto) {
             return this.porcAvance;
         }
-        return -1; 
+        return -1;
     }
 
 }
