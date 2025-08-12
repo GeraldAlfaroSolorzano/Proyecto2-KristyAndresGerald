@@ -4,29 +4,29 @@ import java.time.LocalDate;
 
 /**
  * Clase que representa un colaborador, que hereda de la clase Persona
- * y agrega atributos propios como id, puesto y especialidad.
- * 
+ * y agrega atributos propios como id, puesto y especialidad
+ *
  * @author Andres
  */
 public class Colaborador extends Persona {
 
     /**
-     * Identificador unico del colaborador.
+     * Identificador unico del colaborador
      */
     private int idColaborador;
 
     /**
-     * Puesto que ocupa el colaborador.
+     * Puesto que ocupa el colaborador
      */
     private Puestos puesto;
 
     /**
-     * Especialidad del colaborador.
+     * Especialidad del colaborador
      */
     private String especialidad;
 
     /**
-     * Constructor vacio que inicializa los atributos con valores predeterminados.
+     * Constructor vacio que inicializa los atributos con valores predeterminados
      */
     public Colaborador() {
         super();
@@ -36,8 +36,7 @@ public class Colaborador extends Persona {
     }
 
     /**
-     * Constructor con parametros que inicializa un colaborador con los datos proporcionados.
-     * 
+     * Constructor con parametros que inicializa un colaborador con los datos proporcionados
      * @param idColaborador Identificador unico del colaborador
      * @param cedula Numero de cedula de la persona
      * @param nombre Nombre de la persona
@@ -47,19 +46,20 @@ public class Colaborador extends Persona {
      * @param telefono Numero de telefono
      * @param email Correo electronico
      * @param puesto Puesto que ocupa el colaborador
-     * @param departamento Especialidad o departamento del colaborador
+     * @param especialidad Especialidad del colaborador
      */
-    public Colaborador(int idColaborador, int cedula, String nombre, String direccion, LocalDate fechaNac,
-            LocalDate fecIngreso, int telefono, String email, Puestos puesto, String departamento) {
+    public Colaborador(int idColaborador, int cedula, String nombre, String direccion,
+                       LocalDate fechaNac, LocalDate fecIngreso, int telefono, String email,
+                       Puestos puesto, String especialidad) {
+
         super(cedula, nombre, direccion, fechaNac, fecIngreso, telefono, email);
         this.idColaborador = idColaborador;
         this.puesto = puesto;
-        this.especialidad = departamento; // corregido para asignar departamento a especialidad
+        this.especialidad = especialidad;
     }
 
     /**
-     * Obtiene el id unico del colaborador.
-     * 
+     * Obtiene el id unico del colaborador
      * @return idColaborador
      */
     public int getIdColaborador() {
@@ -67,8 +67,7 @@ public class Colaborador extends Persona {
     }
 
     /**
-     * Establece el id unico del colaborador.
-     * 
+     * Establece el id unico del colaborador
      * @param idColaborador Identificador a asignar
      */
     public void setIdColaborador(int idColaborador) {
@@ -76,8 +75,7 @@ public class Colaborador extends Persona {
     }
 
     /**
-     * Obtiene el puesto del colaborador.
-     * 
+     * Obtiene el puesto del colaborador
      * @return puesto
      */
     public Puestos getPuesto() {
@@ -85,8 +83,7 @@ public class Colaborador extends Persona {
     }
 
     /**
-     * Establece el puesto del colaborador.
-     * 
+     * Establece el puesto del colaborador
      * @param puesto Puesto a asignar
      */
     public void setPuesto(Puestos puesto) {
@@ -94,31 +91,32 @@ public class Colaborador extends Persona {
     }
 
     /**
-     * Obtiene la especialidad del colaborador.
-     * 
+     * Obtiene la especialidad del colaborador
      * @return especialidad
      */
-    public String getespecialidad() {
+    public String getEspecialidad() {
         return especialidad;
     }
 
     /**
-     * Establece la especialidad del colaborador.
-     * 
+     * Establece la especialidad del colaborador
      * @param especialidad Especialidad a asignar
      */
-    public void setespecialidad(String especialidad) {
+    public void setEspecialidad(String especialidad) {
         this.especialidad = especialidad;
     }
 
     /**
-     * Devuelve una representacion en texto del colaborador, incluyendo id, nombre y puesto.
-     * 
+     * Representacion en texto del colaborador
      * @return String con informacion del colaborador
      */
     @Override
     public String toString() {
-        return idColaborador + " - " + nombre + " (" + (puesto != null ? puesto.getNomPuesto() : "Sin puesto") + ")";
+        String nomPuesto = "Sin puesto";
+        if (puesto != null) {
+            nomPuesto = puesto.getNomPuesto();
+        }
+        return idColaborador + " - " + nombre + " (" + nomPuesto + ")";
     }
 }
 
