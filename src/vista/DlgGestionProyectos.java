@@ -183,20 +183,7 @@ public class DlgGestionProyectos extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnInsertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertarActionPerformed
-        btnInsertar.addActionListener(e -> {
-    DlgNuevoProyecto nuevo = new Proyecto();
-    nuevo.setIdProyecto(generarNuevoID());
-    nuevo.setNomProyecto(txtBuscar.getText());
-    nuevo.setFechInicio(LocalDate.now());
-    nuevo.setFechFin(LocalDate.now().plusDays(30));
-    nuevo.setDuracionDias(30);
-    nuevo.setEstado("En progreso");
-    nuevo.setPorcAvance(0);
-
-    gestor.insertar(nuevo);
-    actualizarTabla();
-});
-
+   
     }//GEN-LAST:event_btnInsertarActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
@@ -204,62 +191,18 @@ public class DlgGestionProyectos extends javax.swing.JDialog {
     }//GEN-LAST:event_formWindowActivated
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-   btnEliminar.addActionListener(e -> {
-    int id = Integer.parseInt(txtBuscar.getText());
-    boolean eliminado = gestor.eliminar(id);
-    if (eliminado) {
-        actualizarTabla();
-    } else {
-        JOptionPane.showMessageDialog(null, "Proyecto no encontrado.");
-    }
-});
-
-
+   
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-       btnEditar.addActionListener(e -> {
-    int id = Integer.parseInt(txtBuscar.getText());
-    Proyectos existente = gestor.buscar(id);
-    if (existente != null) {
-        existente.setNomProyecto("Proyecto Editado");
-        existente.setPorcAvance(50);
-        gestor.modificar(existente);
-        actualizarTabla();
-    } else {
-        JOptionPane.showMessageDialog(null, "Proyecto no encontrado.");
-    }
-});
-
+    
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
-        String titulo[] = {"Id", "Nombre del Puesto", "Salario"};
-        Puestos puesto;
         
-        tblModel = new DefaultTableModel(null, titulo);
-        for (int i = 0; i < listaProyectos.getListaPuestos().size(); i++) {
-            puesto = listaProyectos.getListaPuestos().get(i);
-            
-            if (String.valueOf(puesto.getIdPuesto()).contains(txtBuscar.getText()) ||
-                    puesto.getNomPuesto().toLowerCase().contains(txtBuscar.getText().toLowerCase()) ||
-                    String.valueOf(puesto.getSalario()).contains(txtBuscar.getText())){
-                Object row[] = {listaPuestos.getListaPuestos().get(i).getIdPuesto(),
-                    listaProyectos.getListaPuestos().get(i).getNomPuesto(),
-                    listaProyectos.getListaPuestos().get(i).getSalario()};
-                tblModel.addRow(row);
-            }
-        }
-
-        tblProyectos.setModel(tblModel);
-        txtCant.setText(String.valueOf(tblProyectos.getRowCount()));
-
     }//GEN-LAST:event_txtBuscarKeyReleased
 
    private void actualizarTabla() {
-    ArrayList<Proyectos> lista = gestor.mostrar();
-    // Actualiza JTable o JList con los datos
-    lblCant.setText(String.valueOf(lista.size()));
 }
 
     /**

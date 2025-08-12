@@ -4,10 +4,11 @@
  */
 package vista;
 
+import datos.AlmacenamientoProyectos;
 import datos.AlmacenamientoPuestos;
 import javax.swing.JOptionPane;
 import logica.Proyectos;
-import logica.Puestos;
+
 
 /**
  *
@@ -15,9 +16,9 @@ import logica.Puestos;
  */
 public class DlgNuevoProyecto extends javax.swing.JDialog {
 
-    AlmacenamientoPuestos listaProyectos;
+    AlmacenamientoProyectos listaProyectos;
     Proyectos proyecto;
-    int pos;
+  
 
     /**
      * Creates new form DlgNuevoAuto
@@ -31,16 +32,16 @@ public class DlgNuevoProyecto extends javax.swing.JDialog {
             AlmacenamientoPuestos listaPuestos) {
         super(parent, modal);
         initComponents();
-        this.listaProyectos = listaPuestos;
+        this.listaProyectos = listaProyectos;
     }
 
     public DlgNuevoProyecto(java.awt.Frame parent, boolean modal,
-            AlmacenamientoPuestos listaPuesto, Puestos puesto, int pos) {
+            AlmacenamientoProyectos listaProyectos, Proyectos proyecto, int pos) {
         super(parent, modal);
         initComponents();
-        this.listaProyectos = listaPuesto;
-        this.Proyectos = proyecto;
-        this.pos = pos;
+        this.listaProyectos = listaProyectos;
+        
+      
     }
 
     /**
@@ -192,62 +193,15 @@ public class DlgNuevoProyecto extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        Proyectos proyecto = new proyecto();
-        //Validación de campos vacíos
-        if (txtId.getText().isBlank()
-                || txtPuesto.getText().isBlank()
-                || txtSalario.getText().isBlank()) {
-
-            JOptionPane.showMessageDialog(this, "Hay campos vacíos");
-        } else {
-            //Agregar try/catch
-            try {
-                proyecto.setIdPuesto(Integer.parseInt(txtId.getText()));
-                proyecto.setNomPuesto(txtPuesto.getText());
-                proyecto.setSalario(Double.parseDouble(txtSalario.getText()));
-
-                switch (this.getTitle()) {
-                    case "Agregar un Nuevo Puesto" -> {
-                        if (listaPuestos.buscarId(puesto.getIdPuesto()) == null) {
-                            listaPuestos.insertarPuesto(puesto);
-                            JOptionPane.showMessageDialog(this, "Puesto agregado con éxito");
-                            txtId.setText("");
-                            txtPuesto.setText("");
-                            txtSalario.setText("");
-                            txtId.requestFocus();
-                        } else {
-                            JOptionPane.showMessageDialog(this, "El id de puesto ya existe");
-                            txtId.requestFocus();
-                            txtId.setSelectionStart(0);
-                            txtId.setSelectionEnd(txtId.getText().length());
-                        }
-                    }
-                    case "Editar Puesto" -> {
-                        listaPuestos.editarPuesto(pos, puesto);
-                        JOptionPane.showMessageDialog(this, "Puesto editado con éxito");
-                        this.dispose();
-                    }
-                }
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(this, "Id y salario deben ser numéricos");
-            }
-
-        }
+     
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
 
-        if (this.getTitle().equals("Editar Puesto")) {
-            txtId.setText(String.valueOf(puesto.getIdPuesto()));
-            txtId.setEnabled(false);
-            txtPuesto.setText(puesto.getNomPuesto());
-            txtSalario.setText(String.valueOf(puesto.getSalario()));
-        }
-
     }//GEN-LAST:event_formWindowActivated
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        this.dispose();
+       
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     /**
