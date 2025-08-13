@@ -4,6 +4,7 @@
  */
 package vista;
 
+import datos.AlmacenamientoColaborador;
 import datos.AlmacenamientoPuestos;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -15,6 +16,7 @@ import java.awt.Toolkit;
 public class FrmSistema extends javax.swing.JFrame {
 
     AlmacenamientoPuestos listaPuestos = new AlmacenamientoPuestos();
+    AlmacenamientoColaborador listaColaboradores = new AlmacenamientoColaborador();
     /**
      * Creates new form SistemaPlanilla
      */
@@ -227,7 +229,12 @@ public class FrmSistema extends javax.swing.JFrame {
     }//GEN-LAST:event_btnPuestosActionPerformed
 
     private void btnColabsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnColabsActionPerformed
-        // TODO add your handling code here:
+        DlgGestionColaborador winColab = new DlgGestionColaborador(this, false, listaColaboradores, listaPuestos);
+        winColab.setLocationRelativeTo(null);
+        winColab.setTitle("Gestión de Colaboradores");
+        winColab.setVisible(true);
+        
+        this.listaColaboradores = winColab.listaColaboradores;
     }//GEN-LAST:event_btnColabsActionPerformed
 
     private void btnPlusesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlusesActionPerformed

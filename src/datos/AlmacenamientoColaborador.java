@@ -16,6 +16,14 @@ public class AlmacenamientoColaborador {
      */
     private ArrayList<Colaborador> listaColaboradores;
 
+    public ArrayList<Colaborador> getListaColaboradores() {
+        return listaColaboradores;
+    }
+
+    public void setListaColaboradores(ArrayList<Colaborador> listaColaboradores) {
+        this.listaColaboradores = listaColaboradores;
+    }
+
     /**
      * Constructor que inicializa la lista de colaboradores vacia
      */
@@ -28,7 +36,7 @@ public class AlmacenamientoColaborador {
      * @param c Colaborador a insertar
      * @return true si se inserto false si es null o ya existe id/cedula
      */
-    public boolean insertar(Colaborador c) {
+    public boolean insertarColab(Colaborador c) {
         if (c == null) {
             return false;
         }
@@ -73,7 +81,7 @@ public class AlmacenamientoColaborador {
      * @param nuevo Colaborador con los datos nuevos
      * @return true si la modificacion fue exitosa false si no se encontro o duplica cedula
      */
-    public boolean modificar(Colaborador nuevo) {
+    public boolean modificarColab(Colaborador nuevo) {
         if (nuevo == null) {
             return false;
         }
@@ -101,7 +109,7 @@ public class AlmacenamientoColaborador {
      * @param id Id del colaborador a eliminar
      * @return true si se elimino, false si no se encontro
      */
-    public boolean eliminar(int id) {
+    public boolean eliminarColab(int id) {
         for (int i = 0; i < this.listaColaboradores.size(); i++) {
             if (this.listaColaboradores.get(i).getIdColaborador() == id) {
                 this.listaColaboradores.remove(i);
@@ -115,7 +123,7 @@ public class AlmacenamientoColaborador {
      * Devuelve la lista completa de colaboradores almacenados
      * @return ArrayList con todos los colaboradores
      */
-    public ArrayList<Colaborador> mostrar() {
+    public ArrayList<Colaborador> mostrarColab() {
         return this.listaColaboradores;
     }
 }
