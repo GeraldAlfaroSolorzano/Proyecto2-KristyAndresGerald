@@ -225,7 +225,12 @@ public class FrmSistema extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void btnPuestosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPuestosActionPerformed
- 
+        DlgGestionPuestos winPuestos = new DlgGestionPuestos(this, false, listaPuestos);
+        winPuestos.setLocationRelativeTo(null);
+        winPuestos.setTitle("Gestión de Puestos");
+        winPuestos.setVisible(true);
+
+        this.listaPuestos = winPuestos.listaPuestos;
     }//GEN-LAST:event_btnPuestosActionPerformed
 
     private void btnColabsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnColabsActionPerformed
