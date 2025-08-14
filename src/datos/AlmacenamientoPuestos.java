@@ -41,6 +41,7 @@ public class AlmacenamientoPuestos {
     // CRUD
     /**
      * Inserta un puesto validando que el ID sea unico
+     *
      * @param puesto Puesto a insertar
      * @return true si se inserto o false si es nulo o ID repetido
      */
@@ -59,10 +60,11 @@ public class AlmacenamientoPuestos {
 
     /**
      * Busca un puesto por su ID
+     *
      * @param idPuesto ID a buscar
      * @return Puesto encontrado o null si no existe
      */
-    public Puestos buscar(int idPuesto) {
+    public Puestos buscarId(int idPuesto) {
         for (Puestos p : this.listaPuestos) {
             if (p.getIdPuesto() == idPuesto) {
                 return p;
@@ -71,8 +73,18 @@ public class AlmacenamientoPuestos {
         return null;
     }
 
+    public Puestos buscaPuesto(String puesto) {
+        for (Puestos p : listaPuestos) {
+            if (p.getNomPuesto().equals(puesto)) {
+                return p;
+            }
+        }
+        return null;
+    }
+
     /**
      * Modifica nombre y salario de un puesto por su ID
+     *
      * @param idPuesto ID del puesto a modificar
      * @param nuevo Datos actualizados del puesto
      * @return true si se modifico o false si no existe
@@ -94,6 +106,7 @@ public class AlmacenamientoPuestos {
 
     /**
      * Elimina un puesto por su ID
+     *
      * @param idPuesto ID del puesto a eliminar
      * @return true si se elimino o false si no existe
      */
@@ -109,6 +122,7 @@ public class AlmacenamientoPuestos {
 
     /**
      * Muestra todos los puestos registrados
+     *
      * @return Lista de puestos
      */
     public ArrayList<Puestos> mostrar() {

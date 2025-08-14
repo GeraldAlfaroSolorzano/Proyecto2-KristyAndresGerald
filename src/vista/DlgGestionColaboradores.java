@@ -1,40 +1,52 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
- */
 package vista;
 
-
-import datos.AlmacenamientoColaborador;
+import datos.AlmacenamientoColab;
 import datos.AlmacenamientoPuestos;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-
+import logica.Colaborador;
 
 /**
+ * Dialogo de gestion de colaboradores Permite visualizar, editar y administrar
+ * los datos de los colaboradores registrados Utiliza instancias de
+ * AlmacenamientoColab y AlmacenamientoPuestos para operar sobre los datos
  *
  * @author Andres
  */
-public class DlgGestionColaborador extends javax.swing.JDialog {
+public class DlgGestionColaboradores extends javax.swing.JDialog {
 
-    protected AlmacenamientoColaborador listaColaboradores;
+    protected AlmacenamientoColab listaColab;
     protected AlmacenamientoPuestos listaPuestos;
     private DefaultTableModel tblModel;
 
+    protected int cedJefe;
+    protected String nombreJefe;
+
     /**
-     * Creates new form DlgGestionAutos
+     * Crea una nueva instancia del dialogo sin listas de datos
+     *
+     * @param parent ventana padre
+     * @param modal indica si el dialogo es modal
      */
-    public DlgGestionColaborador(java.awt.Frame parent, boolean modal) {
+    public DlgGestionColaboradores(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
 
-    public DlgGestionColaborador(java.awt.Frame parent, boolean modal,
-            AlmacenamientoColaborador listaColaboradores, AlmacenamientoPuestos listaPuestos) {
+    /**
+     * Crea una nueva instancia del dialogo con listas de colaboradores y
+     * puestos
+     *
+     * @param parent ventana padre
+     * @param modal indica si el dialogo es modal
+     * @param listaColab instancia de almacenamiento de colaboradores
+     * @param listaPuestos instancia de almacenamiento de puestos
+     */
+    public DlgGestionColaboradores(java.awt.Frame parent, boolean modal, AlmacenamientoColab listaColab, AlmacenamientoPuestos listaPuestos) {
         super(parent, modal);
         initComponents();
-        this.listaColaboradores = listaColaboradores;
-        this.listaPuestos= listaPuestos;
+        this.listaColab = listaColab;
+        this.listaPuestos = listaPuestos;
     }
 
     /**
@@ -53,7 +65,7 @@ public class DlgGestionColaborador extends javax.swing.JDialog {
         btnEditar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblPuestos = new javax.swing.JTable();
+        tblColab = new javax.swing.JTable();
         lblCant = new javax.swing.JLabel();
         txtCant = new javax.swing.JTextField();
 
@@ -132,7 +144,7 @@ public class DlgGestionColaborador extends javax.swing.JDialog {
                 .addContainerGap(15, Short.MAX_VALUE))
         );
 
-        tblPuestos.setModel(new javax.swing.table.DefaultTableModel(
+        tblColab.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -140,7 +152,7 @@ public class DlgGestionColaborador extends javax.swing.JDialog {
 
             }
         ));
-        jScrollPane1.setViewportView(tblPuestos);
+        jScrollPane1.setViewportView(tblColab);
 
         lblCant.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblCant.setText("Cantidad de registros:");
@@ -181,94 +193,168 @@ public class DlgGestionColaborador extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+/**
+     * Abre el dialogo para insertar un nuevo colaborador Actualiza la lista de
+     * colaboradores si se agrego uno nuevo
+     *
+     * @param evt evento de accion generado por el boton insertar
+     */
 
     private void btnInsertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertarActionPerformed
-        DlgNuevoColaborador win = new DlgNuevoColaborador(null, true, listaColaboradores, listaPuestos);
-        win.setTitle("Agregar un Nuevo Colaborador");
+        DlgNuevoColaborador win = new DlgNuevoColaborador(null, true, listaColab, listaPuestos);
+        win.setTitle("Agregar un nuevo Colaborador");
         win.setLocationRelativeTo(null);
         win.setVisible(true);
-        this.listaColaboradores = win.listaColaboradores;
+        this.listaColab = win.listaColab;
     }//GEN-LAST:event_btnInsertarActionPerformed
+    /**
+     * Se ejecuta al activar la ventana Refresca la tabla de colaboradores
+     * mostrados
+     *
+     * @param evt evento de activacion de ventana
+     */
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         muestraTabla();
     }//GEN-LAST:event_formWindowActivated
+    /**
+     * Elimina el colaborador seleccionado en la tabla si existe Solicita
+     * confirmacion antes de eliminar y muestra mensajes segun el resultado
+     *
+     * @param evt evento de accion generado por el boton eliminar
+     */
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-//        if (tblPuestos.getSelectedRowCount() == 1) {
-//            int id = listaPuestos.getListaPuestos().
-//                    get(tblPuestos.getSelectedRow()).getIdPuesto();
-//            int resp = JOptionPane.showConfirmDialog(this, "Quiere eliminar el puesto");
-//
-//            if (resp == 0) {  //Sí quiere eliminar el auto
-//                if (listaPuestos.eliminarPuesto(listaPuestos.buscarId(id))) {
-//                    JOptionPane.showMessageDialog(this, "Puesto eliminado");
-//                }
-//            }
-//        } else {
-//            JOptionPane.showMessageDialog(this, "Debe seleccionar 1 Puesto");
-//        }
+        if (tblColab.getSelectedRowCount() == 1) {
+            int ced = listaColab.getArrayColab().get(tblColab.getSelectedRow()).getCedula();
+            int resp = JOptionPane.showConfirmDialog(this, "Quiere eliminar el Colaborador?");
+            //System.out.println(resp);
+            if (resp == 0) {  //Sí quiere eliminar el auto
+                if (listaColab.eliminarColab(listaColab.buscaCedula(ced))) {
+                    JOptionPane.showMessageDialog(this, "Colaborador eliminado");
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar 1 Colaborador");
+        }
     }//GEN-LAST:event_btnEliminarActionPerformed
+    /**
+     * Abre el dialogo para editar el colaborador seleccionado Carga los datos
+     * del colaborador y actualiza la lista si se modifico
+     *
+     * @param evt evento de accion generado por el boton editar
+     */
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-//        if (tblPuestos.getSelectedRowCount() == 1) {
-//            int pos = tblPuestos.getSelectedRow();
-//            
-//            int id = listaPuestos.getListaPuestos().get(tblPuestos.getSelectedRow()).getIdPuesto();
-//            Puestos puesto = listaPuestos.buscarId(id);
-//
-//            DlgNuevoPuesto winEditar = new DlgNuevoPuesto(null, true, 
-//                    listaPuestos, puesto, pos);
-//
-//            winEditar.setTitle("Editar Puesto");
-//            winEditar.setVisible(true);
-//
-//            this.listaPuestos = winEditar.listaPuestos;
-//        } else {
-//            JOptionPane.showMessageDialog(this, "Debe seleccionar 1 Puesto");
-//        }
+        if (tblColab.getSelectedRowCount() == 1) {
+            int pos = tblColab.getSelectedRow();
+            int ced = listaColab.getArrayColab().get(tblColab.getSelectedRow()).getCedula();
+
+            Colaborador colab = listaColab.buscaCedula(ced);
+
+            DlgNuevoColaborador winEditar = new DlgNuevoColaborador(null, true, listaColab, colab, pos, listaPuestos);
+
+            winEditar.setTitle("Editar Colabprador");
+            winEditar.setLocationRelativeTo(null);
+            winEditar.setVisible(true);
+
+            this.listaColab = winEditar.listaColab;
+        } else {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar 1 Colaborador");
+        }
     }//GEN-LAST:event_btnEditarActionPerformed
+    /**
+     * Filtra los colaboradores segun el texto ingresado en el campo de busqueda
+     * Actualiza la tabla mostrando solo los que coinciden por cedula, nombre o
+     * puesto
+     *
+     * @param evt evento de tecla liberada en el campo de texto
+     */
 
     private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
-//        String titulo[] = {"Id", "Nombre del Puesto", "Salario"};
-//        Puestos puesto;
-//        
-//        tblModel = new DefaultTableModel(null, titulo);
-//        for (int i = 0; i < listaPuestos.getListaPuestos().size(); i++) {
-//            puesto = listaPuestos.getListaPuestos().get(i);
-//            
-//            if (String.valueOf(puesto.getIdPuesto()).contains(txtBuscar.getText()) ||
-//                    puesto.getNomPuesto().toLowerCase().contains(txtBuscar.getText().toLowerCase()) ||
-//                    String.valueOf(puesto.getSalario()).contains(txtBuscar.getText())){
-//                Object row[] = {listaPuestos.getListaPuestos().get(i).getIdPuesto(),
-//                    listaPuestos.getListaPuestos().get(i).getNomPuesto(),
-//                    listaPuestos.getListaPuestos().get(i).getSalario()};
-//                tblModel.addRow(row);
-//            }
-//        }
-//
-//        tblPuestos.setModel(tblModel);
-//        txtCant.setText(String.valueOf(tblPuestos.getRowCount()));
+        String titulo[] = {"Cédula", "Nombre", "Teléfono", "Email",
+            "Dirección", "Puesto", "Fecha Nac", "Fecha Ingreso",
+            "Fecha Despido", "Jefe"};
 
+        Colaborador colab;
+
+        tblModel = new DefaultTableModel(null, titulo);
+
+        for (int i = 0; i < listaColab.getArrayColab().size(); i++) {
+            colab = listaColab.getArrayColab().get(i);
+
+            if (String.valueOf(colab.getCedula()).contains(txtBuscar.getText())
+                    || colab.getNombre().toLowerCase().contains(txtBuscar.getText().toLowerCase())
+                    || colab.getPuesto().getNomPuesto().contains(txtBuscar.getText().toLowerCase())) {
+                String puesto = listaColab.getArrayColab().get(i).
+                        getPuesto().getNomPuesto();
+                Object row[] = {listaColab.getArrayColab().get(i).getCedula(),
+                    listaColab.getArrayColab().get(i).getNombre(),
+                    listaColab.getArrayColab().get(i).getTelefono(),
+                    listaColab.getArrayColab().get(i).getEmail(),
+                    listaColab.getArrayColab().get(i).getDireccion(),
+                    puesto,
+                    listaColab.getArrayColab().get(i).getFechaNac(),
+                    listaColab.getArrayColab().get(i).getFechIngreso()};
+
+                tblModel.addRow(row);
+            }
+        }
+
+        tblColab.setModel(tblModel);
+        txtCant.setText(String.valueOf(tblColab.getRowCount()));
     }//GEN-LAST:event_txtBuscarKeyReleased
 
-    private void muestraTabla() {
-//        String titulo[] = {"Id", "Nombre del Puesto", "Salario"};
-//
-//        tblModel = new DefaultTableModel(null, titulo);
-//        for (int i = 0; i < listaPuestos.getListaPuestos().size(); i++) {
-//            Object row[] = {listaPuestos.getListaPuestos().get(i).getIdPuesto(),
-//                listaPuestos.getListaPuestos().get(i).getNomPuesto(),
-//                listaPuestos.getListaPuestos().get(i).getSalario()};
-//            tblModel.addRow(row);
-//        }
-//
-//        tblPuestos.setModel(tblModel);
-//        txtCant.setText(String.valueOf(tblPuestos.getRowCount()));
+    /**
+     * Detecta doble clic sobre la tabla cuando se esta seleccionando un jefe
+     * Asigna la cedula y nombre del jefe seleccionado y cierra el dialogo
+     *
+     * @param evt evento de clic del mouse sobre la tabla
+     */
+    private void tblColabMousePressed(java.awt.event.MouseEvent evt) {
+        if (evt.getClickCount() == 2 && this.getTitle().equals("Seleccione el Jefe")) {
+            this.cedJefe = Integer.parseInt(tblColab.getValueAt(tblColab.getSelectedRow(), 0).toString());
+
+            this.nombreJefe = tblColab.getValueAt(tblColab.getSelectedRow(), 1).toString();
+
+            this.dispose();
+        }
     }
 
     /**
-     * @param args the command line arguments
+     * Carga todos los colaboradores en la tabla sin aplicar filtros Muestra la
+     * cantidad total en el campo correspondiente
+     */
+    private void muestraTabla() {
+        String titulo[] = {"Cédula", "Nombre", "Teléfono", "Email",
+            "Dirección", "Puesto", "Fecha Nac", "Fecha Ingreso",
+            "Fecha Despido", "Jefe"};
+
+        tblModel = new DefaultTableModel(null, titulo);
+        for (int i = 0; i < listaColab.getArrayColab().size(); i++) {
+            String puesto = listaColab.getArrayColab().get(i).
+                    getPuesto().getNomPuesto();
+            Object row[] = {listaColab.getArrayColab().get(i).getCedula(),
+                listaColab.getArrayColab().get(i).getNombre(),
+                listaColab.getArrayColab().get(i).getTelefono(),
+                listaColab.getArrayColab().get(i).getEmail(),
+                listaColab.getArrayColab().get(i).getDireccion(),
+                puesto,
+                listaColab.getArrayColab().get(i).getFechaNac(),
+                listaColab.getArrayColab().get(i).getFechIngreso()};
+
+            tblModel.addRow(row);
+        }
+
+        tblColab.setModel(tblModel);
+        txtCant.setText(String.valueOf(tblColab.getRowCount()));
+    }
+
+    /**
+     * Metodo principal que inicia el dialogo de gestion de colaboradores
+     * Configura el estilo visual y lanza la ventana en el hilo de eventos
+     *
+     * @param args argumentos de linea de comandos
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -284,18 +370,14 @@ public class DlgGestionColaborador extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DlgGestionColaborador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DlgGestionColaboradores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DlgGestionColaborador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DlgGestionColaboradores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DlgGestionColaborador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DlgGestionColaboradores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DlgGestionColaborador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DlgGestionColaboradores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -304,7 +386,7 @@ public class DlgGestionColaborador extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                DlgGestionColaborador dialog = new DlgGestionColaborador(new javax.swing.JFrame(), true);
+                DlgGestionColaboradores dialog = new DlgGestionColaboradores(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -324,7 +406,7 @@ public class DlgGestionColaborador extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblBuscar;
     private javax.swing.JLabel lblCant;
-    private javax.swing.JTable tblPuestos;
+    private javax.swing.JTable tblColab;
     private javax.swing.JTextField txtBuscar;
     private javax.swing.JTextField txtCant;
     // End of variables declaration//GEN-END:variables

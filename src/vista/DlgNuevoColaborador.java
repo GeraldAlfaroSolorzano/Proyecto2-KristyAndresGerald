@@ -1,6 +1,6 @@
 package vista;
 
-import datos.AlmacenamientoColaborador;
+import datos.AlmacenamientoColab;
 import datos.AlmacenamientoPuestos;
 import javax.swing.JOptionPane;
 import logica.Colaborador;
@@ -12,35 +12,38 @@ import logica.Puestos;
  */
 public class DlgNuevoColaborador extends javax.swing.JDialog {
 
-    protected AlmacenamientoColaborador listaColaboradores;
+    protected AlmacenamientoColab listaColab;
     protected AlmacenamientoPuestos listaPuestos;
-    Colaborador colaborador;
+    Colaborador colab;
     int pos;
 
     /**
      * Creates new form DlgNuevoAuto
+     *
+     * @param parent
+     * @param modal
      */
     public DlgNuevoColaborador(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+
     }
 
-    public DlgNuevoColaborador(java.awt.Frame parent, boolean modal,
-            AlmacenamientoColaborador listaColaboradores, AlmacenamientoPuestos listaPuestos) {
+    public DlgNuevoColaborador(java.awt.Frame parent, boolean modal, AlmacenamientoColab listaColab, AlmacenamientoPuestos listaPuestos) {
         super(parent, modal);
         initComponents();
-        this.listaColaboradores = listaColaboradores;
+        this.listaColab = listaColab;
         this.listaPuestos = listaPuestos;
+        this.colab = new Colaborador();
     }
 
-    public DlgNuevoColaborador(java.awt.Frame parent, boolean modal,
-            AlmacenamientoColaborador listaColaboradores, Colaborador colaborador, int pos, AlmacenamientoPuestos listaPuestos) {
+    public DlgNuevoColaborador(java.awt.Frame parent, boolean modal, AlmacenamientoColab listaColab, Colaborador colab, int pos, AlmacenamientoPuestos listaPuestos) {
         super(parent, modal);
         initComponents();
-        this.listaColaboradores = listaColaboradores;
-        this.colaborador = colaborador;
+        this.listaColab = listaColab;
+        this.colab = colab;
+        this.listaPuestos = listaPuestos;
         this.pos = pos;
-        this.listaPuestos = listaPuestos;
     }
 
     /**
@@ -61,21 +64,14 @@ public class DlgNuevoColaborador extends javax.swing.JDialog {
         txtEmail = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         txtDireccion = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         txtTelefono = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         cmbPuesto = new javax.swing.JComboBox<>();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        txtNombreJefe = new javax.swing.JTextField();
-        txtCedulaJefe = new javax.swing.JTextField();
-        btnBusqueda = new javax.swing.JButton();
-        datePicker1 = new com.github.lgooddatepicker.components.DatePicker();
-        datePicker2 = new com.github.lgooddatepicker.components.DatePicker();
-        datePicker3 = new com.github.lgooddatepicker.components.DatePicker();
+        dtpFechaNac = new com.github.lgooddatepicker.components.DatePicker();
+        dtpFechaIngreso = new com.github.lgooddatepicker.components.DatePicker();
         jPanel2 = new javax.swing.JPanel();
         btnGuardar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
@@ -89,26 +85,24 @@ public class DlgNuevoColaborador extends javax.swing.JDialog {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        lblPlaca.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblPlaca.setText("Cedula");
+        lblPlaca.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         txtCedula.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
-        lblMarca.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblMarca.setText("Nombre");
+        lblMarca.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         txtNombre.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
-        lblAnio.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblAnio.setText("Telefono");
+        lblAnio.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         txtEmail.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         jLabel1.setText("Fecha Nac");
 
         jLabel2.setText("Fecha Ingreso");
-
-        jLabel3.setText("Fecha Despido");
 
         jLabel4.setText("Email");
 
@@ -120,17 +114,11 @@ public class DlgNuevoColaborador extends javax.swing.JDialog {
 
         jLabel6.setText("Puesto");
 
-        jLabel7.setText("Cedula Jefe");
-
-        jLabel8.setText("Nombre Jefe");
-
-        txtNombreJefe.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtNombreJefe.setEnabled(false);
-
-        txtCedulaJefe.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtCedulaJefe.setEnabled(false);
-
-        btnBusqueda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/buscar.png"))); // NOI18N
+        cmbPuesto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbPuestoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -172,25 +160,10 @@ public class DlgNuevoColaborador extends javax.swing.JDialog {
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGap(5, 5, 5)
                                         .addComponent(txtDireccion)))))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel8)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(datePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel3)
-                                        .addComponent(jLabel7))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(txtNombreJefe)
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addComponent(txtCedulaJefe, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(btnBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addComponent(datePicker3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addComponent(datePicker2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGap(127, 127, 127)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(dtpFechaNac, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(dtpFechaIngreso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -214,48 +187,38 @@ public class DlgNuevoColaborador extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel3)))
+                            .addComponent(jLabel4)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
-                            .addComponent(datePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(dtpFechaNac, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addComponent(datePicker2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(datePicker3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(dtpFechaIngreso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7)
-                            .addComponent(txtCedulaJefe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(cmbPuesto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel8)
-                            .addComponent(txtNombreJefe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(btnBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(143, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(cmbPuesto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(144, Short.MAX_VALUE))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        btnGuardar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/guardar.png"))); // NOI18N
         btnGuardar.setText("Guardar");
+        btnGuardar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGuardarActionPerformed(evt);
             }
         });
 
-        btnCancelar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/cancelar.png"))); // NOI18N
         btnCancelar.setText("Cancelar");
+        btnCancelar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelarActionPerformed(evt);
@@ -304,83 +267,102 @@ public class DlgNuevoColaborador extends javax.swing.JDialog {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-//        Colaborador colaborador = new Colaborador();
-//        //Validación de campos vacíos
-//        if (txtCedula.getText().isBlank()
-//                || txtNombre.getText().isBlank()
-//                || txtTelefono.getText().isBlank()
-//                || txtDireccion.getText().isBlank()
-//                || txtEmail.getText().isBlank()
-//                || dtpNacimiento.getDate() == null
-//                || dtpIngreso.getDate() == null
-//                || cmbPuesto.getSelectedIndex()== -1) {
-//
-//            JOptionPane.showMessageDialog(this, "Hay campos vacíos");
-//        } else {
-//            
-//            try {
-//                colaborador.setCedula(Integer.parseInt(txtCedula.getText()));
-//                colaborador.setNombre(txtNombre.getText());
-//                colaborador.setTelefono(Integer.parseInt(txtTelefono.getText()));
-//                colaborador.setEmail(txtEmail.getText());
-//                colaborador.setDireccion(txtDireccion.getText());
-//                colaborador.setPuesto(listaPuestos.buscar(cmbPuesto.getSelectedItem().toString()));
-//                colaborador.setFechaNac(dtpNacimiento.getDate());
-//                
-//                if(dtpDespido.get)
-//
-//                switch (this.getTitle()) {
-//                    case "Agregar un Nuevo Puesto" -> {
-//                        if (listaPuestos.buscarId(puestos.getIdPuesto()) == null) {
-//                            listaPuestos.insertarPuesto(puesto);
-//                            JOptionPane.showMessageDialog(this, "Puesto agregado con éxito");
-//                            txtCedula.setText("");
-//                            txtNombre.setText("");
-//                            txtEmail.setText("");
-//                            txtCedula.requestFocus();
-//                        } else {
-//                            JOptionPane.showMessageDialog(this, "El id de puesto ya existe");
-//                            txtCedula.requestFocus();
-//                            txtCedula.setSelectionStart(0);
-//                            txtCedula.setSelectionEnd(txtCedula.getText().length());
-//                        }
-//                    }
-//                    case "Editar Puesto" -> {
-//                        listaPuestos.editarPuesto(pos, puesto);
-//                        JOptionPane.showMessageDialog(this, "Puesto editado con éxito");
-//                        this.dispose();
-//                    }
-//                }
-//            } catch (NumberFormatException e) {
-//                JOptionPane.showMessageDialog(this, "Id y salario deben ser numéricos");
-//            }
-//
-//        }
+        Colaborador colab = this.colab;
+        //Validación de campos vacíos
+        if (txtCedula.getText().isBlank()
+                || txtNombre.getText().isBlank()
+                || txtDireccion.getText().isBlank()
+                || txtEmail.getText().isBlank()
+                || txtTelefono.getText().isBlank()
+                || dtpFechaNac.getDate() == null
+                || dtpFechaIngreso.getDate() == null
+                || cmbPuesto.getSelectedIndex() >= 0) {
+
+            JOptionPane.showMessageDialog(this, "Hay campos vacíos");
+        } else {
+            //Agregar try/catch
+            try {
+                colab.setCedula(Integer.parseInt(txtCedula.getText()));
+                colab.setNombre(txtNombre.getText());
+                colab.setTelefono(Integer.parseInt(txtTelefono.getText()));
+                colab.setEmail(txtEmail.getText());
+                colab.setDireccion(txtDireccion.getText());
+                colab.setPuesto(listaPuestos.buscaPuesto(cmbPuesto.getSelectedItem().toString()));
+                colab.setFechaNac(dtpFechaNac.getDate());
+                colab.setFechIngreso(dtpFechaIngreso.getDate());
+
+
+                switch (this.getTitle()) {
+                    case "Agregar Colaborador" -> {
+                        if (listaColab.buscaCedula(colab.getCedula()) == null) {
+
+                            listaColab.insertarColab(colab);
+                            JOptionPane.showMessageDialog(this, "Cedula agregado con éxito");
+                            txtCedula.setText("");
+                            txtNombre.setText("");
+                            txtTelefono.setText("");
+                            txtCedula.requestFocus();
+                        } else {
+                            JOptionPane.showMessageDialog(this, "La cedula del puesto ya existe");
+                            txtCedula.requestFocus();
+                            txtCedula.setSelectionStart(0);
+                            txtCedula.setSelectionEnd(txtCedula.getText().length());
+                        }
+
+                    }
+
+                    case "Editar Colaborador" -> {
+                        listaColab.editarColab(pos, colab);
+                        JOptionPane.showMessageDialog(this, "Colaborador editado con éxito");
+                        this.dispose();
+
+                    }
+                }
+
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Cedula y telefono deben ser numéricos");
+            }
+
+        }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-        for (Puestos p : listaPuestos.getListaPuestos()) {
+ cmbPuesto.removeAllItems();
+        for (Puestos p: listaPuestos.getListaPuestos()) {
             cmbPuesto.addItem(p.getNomPuesto());
         }
-//        if (this.getTitle().equals("Editar Puesto")) {
-//            txtCedula.setText(String.valueOf(puesto.getIdPuesto()));
-//            txtCedula.setEnabled(false);
-//            txtNombre.setText(puesto.getNomPuesto());
-//            txtEmail.setText(String.valueOf(puesto.getSalario()));
-//        }
+
+        if (this.getTitle().equals("Editar Colaborador")) {
+            txtCedula.setText(String.valueOf(colab.getCedula()));
+            txtCedula.setEnabled(false);
+            txtNombre.setText(colab.getNombre());
+            txtTelefono.setText(String.valueOf(colab.getTelefono()));
+            txtEmail.setText(colab.getEmail());
+            txtDireccion.setText(colab.getDireccion());
+
+            cmbPuesto.setSelectedItem(colab.getPuesto().getNomPuesto());
+            dtpFechaNac.setDate(colab.getFechaNac());
+            dtpFechaIngreso.setDate(colab.getFechIngreso());
+
+
+        }
 
     }//GEN-LAST:event_formWindowActivated
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void cmbPuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbPuestoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbPuestoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -432,32 +414,25 @@ public class DlgNuevoColaborador extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnBusqueda;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JComboBox<String> cmbPuesto;
-    private com.github.lgooddatepicker.components.DatePicker datePicker1;
-    private com.github.lgooddatepicker.components.DatePicker datePicker2;
-    private com.github.lgooddatepicker.components.DatePicker datePicker3;
+    private com.github.lgooddatepicker.components.DatePicker dtpFechaIngreso;
+    private com.github.lgooddatepicker.components.DatePicker dtpFechaNac;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblAnio;
     private javax.swing.JLabel lblMarca;
     private javax.swing.JLabel lblPlaca;
     private javax.swing.JTextField txtCedula;
-    private javax.swing.JTextField txtCedulaJefe;
     private javax.swing.JTextField txtDireccion;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtNombre;
-    private javax.swing.JTextField txtNombreJefe;
     private javax.swing.JTextField txtTelefono;
     // End of variables declaration//GEN-END:variables
 }

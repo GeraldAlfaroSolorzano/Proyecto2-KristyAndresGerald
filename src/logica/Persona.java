@@ -1,4 +1,3 @@
-
 package logica;
 
 import java.time.LocalDate;
@@ -41,7 +40,7 @@ public abstract class Persona {
     /**
      * Fecha de ingreso de la persona a la organizacion
      */
-    protected LocalDate fecIngreso;
+    protected LocalDate fechIngreso;
 
     /**
      * Numero de telefono de la persona
@@ -59,16 +58,16 @@ public abstract class Persona {
      * @param nombre Nombre completo de la persona
      * @param direccion Direccion fisica de la persona
      * @param fechaNac Fecha de nacimiento de la persona
-     * @param fecIngreso Fecha de ingreso a la organizacion
+     * @param fechIngreso Fecha de ingreso a la organizacion
      * @param telefono Numero de telefono de la persona
      * @param email Email de la persona
      */
-    public Persona(int cedula, String nombre, String direccion, LocalDate fechaNac, LocalDate fecIngreso, int telefono, String email) {
+    public Persona(int cedula, String nombre, String direccion, LocalDate fechaNac, LocalDate fechIngreso, int telefono, String email) {
         this.cedula = cedula;
         this.nombre = nombre;
         this.direccion = direccion;
         this.fechaNac = fechaNac;
-        this.fecIngreso = fecIngreso;
+        this.fechIngreso = fechIngreso;
         this.telefono = telefono;
         this.email = email;
     }
@@ -81,7 +80,7 @@ public abstract class Persona {
         this.nombre = "";
         this.direccion = "";
         this.fechaNac = null;
-        this.fecIngreso = null;
+        this.fechIngreso = null;
         this.telefono = 0;
         this.email = "";
     }
@@ -154,16 +153,16 @@ public abstract class Persona {
      * Obtiene la fecha de ingreso de la persona a la organizacion
      * @return Fecha de ingreso
      */
-    public LocalDate getFecIngreso() {
-        return fecIngreso;
+    public LocalDate getFechIngreso() {
+        return fechIngreso;
     }
 
     /**
      * Establece la fecha de ingreso de la persona a la organizacion
-     * @param fecIngreso Fecha de ingreso
+     * @param fechIngreso Fecha de ingreso
      */
-    public void setFecIngreso(LocalDate fecIngreso) {
-        this.fecIngreso = fecIngreso;
+    public void setFechIngreso(LocalDate fechIngreso) {
+        this.fechIngreso = fechIngreso;
     }
 
     /**

@@ -4,7 +4,7 @@
  */
 package logica;
 
-import datos.AlmacenamientoColaborador;
+import datos.AlmacenamientoColab;
 import datos.AlmacenamientoProyectos;
 import java.time.LocalDate;
 
@@ -278,7 +278,7 @@ public class TareasDeProyecto {
      * @param colabs almacenamiento de colaboradores
      * @return true si existe en el almacenamiento false sino
      */
-    public boolean verificarColaborador(int idColaborador, AlmacenamientoColaborador colabs) {
+    public boolean verificarColaborador(int idColaborador, AlmacenamientoColab colabs) {
         if (colabs == null) {
             return false;
         }

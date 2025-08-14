@@ -24,7 +24,7 @@ public class Colaborador extends Persona {
      * Especialidad del colaborador
      */
     private String especialidad;
-
+    
     /**
      * Constructor vacio que inicializa los atributos con valores predeterminados
      */
@@ -42,17 +42,19 @@ public class Colaborador extends Persona {
      * @param nombre Nombre de la persona
      * @param direccion Direccion de la persona
      * @param fechaNac Fecha de nacimiento
-     * @param fecIngreso Fecha de ingreso
+     * @param fechIngreso Fecha de ingreso
+     
      * @param telefono Numero de telefono
      * @param email Correo electronico
+   
      * @param puesto Puesto que ocupa el colaborador
      * @param especialidad Especialidad del colaborador
      */
-    public Colaborador(int idColaborador, int cedula, String nombre, String direccion,
-                       LocalDate fechaNac, LocalDate fecIngreso, int telefono, String email,
+  public Colaborador(int idColaborador, int cedula, String nombre, String direccion,
+                       LocalDate fechaNac, LocalDate fechIngreso, int telefono, String email,
                        Puestos puesto, String especialidad) {
 
-        super(cedula, nombre, direccion, fechaNac, fecIngreso, telefono, email);
+        super(cedula, nombre, direccion, fechaNac, fechIngreso, telefono, email);
         this.idColaborador = idColaborador;
         this.puesto = puesto;
         this.especialidad = especialidad;
@@ -119,4 +121,3 @@ public class Colaborador extends Persona {
         return idColaborador + " - " + nombre + " (" + nomPuesto + ")";
     }
 }
-
