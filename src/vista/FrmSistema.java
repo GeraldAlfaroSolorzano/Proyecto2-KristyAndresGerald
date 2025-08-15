@@ -245,12 +245,12 @@ public class FrmSistema extends javax.swing.JFrame {
     }//GEN-LAST:event_btnColabsActionPerformed
 
     private void btnProyectosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProyectosActionPerformed
-//        DlgGestionProyectos winProyectos = new DlgGestionProyectos(this, false, listaProyectos);
-//        winProyectos.setLocationRelativeTo(null);
-//        winProyectos.setTitle("Gestión de Proyectos");
-//        winProyectos.setVisible(true);
-//
-//        this.listaProyectos = winProyectos.listaProyectos; 
+        DlgGestionProyectos winProyectos = new DlgGestionProyectos(this, false, listaProyectos);
+        winProyectos.setLocationRelativeTo(null);
+        winProyectos.setTitle("Gestión de Proyectos");
+        winProyectos.setVisible(true);
+
+        this.listaProyectos = winProyectos.listaProyectos; 
     }//GEN-LAST:event_btnProyectosActionPerformed
 
     private void btnAsignarPlusesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignarPlusesActionPerformed

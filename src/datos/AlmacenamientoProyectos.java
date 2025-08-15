@@ -1,50 +1,66 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package datos;
 
 import java.util.ArrayList;
 import logica.Proyectos;
 
+
+
 /**
- *
+ * Almacena proyectos en memoria usando ArrayList
+ * expone operaciones CRUD 
  * @author krist
  */
 public class AlmacenamientoProyectos {
 
-    /**
-     * Lista que almacena todos los proyectos registrados
-     */
+    /** 
+     * Lista de proyectos registrados 
+    */
     private ArrayList<Proyectos> listaProyectos;
 
-    public void setListaProyectos(ArrayList<Proyectos> listaProyectos) {
-        this.listaProyectos = listaProyectos;
-    }
-
-    public ArrayList<Proyectos> getListaProyectos() {
-        return listaProyectos;
-    }
-
-    /**
-     * Constructor que inicializa la lista de proyectos vacia
-     */
+    /** 
+     * Constructor que inicializa la lista vacia 
+    */
     public AlmacenamientoProyectos() {
         listaProyectos = new ArrayList<>();
     }
 
-    /**
-     * Inserta un nuevo proyecto en la lista
-     * @param proyecto Proyecto a insertar
-     */
-    public void insertar(Proyectos proyecto) {
-        listaProyectos.add(proyecto);
+    /** 
+     * @return lista de proyectos 
+    */
+    public ArrayList<Proyectos> getListaProyectos() {
+        return listaProyectos;
+    }
+
+    /** 
+     * @param listaProyectos lista a asignar 
+    */
+    public void setListaProyectos(ArrayList<Proyectos> listaProyectos) {
+        this.listaProyectos = listaProyectos;
     }
 
     /**
-     * Busca un proyecto por su ID
-     * @param idProyecto ID del proyecto a buscar
-     * @return El proyecto si se encuentra o null si no existe
+     * Inserta un nuevo proyecto si su id no existe
+     * @param proyecto proyecto a insertar
+     * @return true si se inserto false si ya existe el id
+     */
+    public boolean insertar(Proyectos proyecto) {
+        if (proyecto == null) {
+            return false;
+        }
+        //debe ser unico 
+        for (Proyectos p : listaProyectos) {
+            if (p.getIdProyecto() == proyecto.getIdProyecto()) {
+                return false;
+            }
+        }
+        listaProyectos.add(proyecto);
+        return true;
+    }
+
+    /**
+     * Busca un proyecto por su id
+     * @param idProyecto id del proyecto a buscar
+     * @return el proyecto si existe
      */
     public Proyectos buscar(int idProyecto) {
         for (Proyectos p : listaProyectos) {
@@ -56,11 +72,14 @@ public class AlmacenamientoProyectos {
     }
 
     /**
-     * Modifica un proyecto existente en la lista
-     * @param proyectoModificado Proyecto con los datos actualizados
-     * @return true si se modifico correctamente false si no se encontro
+     * Modifica un proyecto existente buscando por id
+     * @param proyectoModificado proyecto con los datos actualizados
+     * @return true si se modifico false si no se encontro
      */
     public boolean modificar(Proyectos proyectoModificado) {
+        if (proyectoModificado == null) {
+            return false;
+        }
         for (int i = 0; i < listaProyectos.size(); i++) {
             if (listaProyectos.get(i).getIdProyecto() == proyectoModificado.getIdProyecto()) {
                 listaProyectos.set(i, proyectoModificado);
@@ -71,17 +90,17 @@ public class AlmacenamientoProyectos {
     }
 
     /**
-     * Elimina un proyecto por su ID
-     * @param idProyecto ID del proyecto a eliminar
-     * @return true si se elimino correctament false si no se encontro
+     * Elimina un proyecto por su id
+     * @param idProyecto id del proyecto a eliminar
+     * @return true si se elimino false si no se encontro
      */
     public boolean eliminar(int idProyecto) {
         return listaProyectos.removeIf(p -> p.getIdProyecto() == idProyecto);
     }
 
     /**
-     * Devuelve la lista completa de proyectos registrados 
-     * @return Lista de proyectos
+     * Devuelve la lista completa de proyectos registrados
+     * @return lista de proyectos
      */
     public ArrayList<Proyectos> mostrar() {
         return listaProyectos;

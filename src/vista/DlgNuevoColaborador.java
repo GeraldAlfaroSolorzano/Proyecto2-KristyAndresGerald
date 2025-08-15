@@ -283,7 +283,7 @@ public class DlgNuevoColaborador extends javax.swing.JDialog {
                 || txtTelefono.getText().isBlank()
                 || dtpFechaNac.getDate() == null
                 || dtpFechaIngreso.getDate() == null
-                || cmbPuesto.getSelectedIndex() >= 0) {
+                || cmbPuesto.getSelectedIndex() == -1) {
 
             JOptionPane.showMessageDialog(this, "Hay campos vacíos");
         } else {

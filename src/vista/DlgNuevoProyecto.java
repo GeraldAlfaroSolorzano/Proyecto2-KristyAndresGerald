@@ -1,50 +1,61 @@
 package vista;
 
-
-
 import datos.AlmacenamientoProyectos;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import javax.swing.JOptionPane;
+import logica.EstadoTarea;
 import logica.Proyectos;
-
-
 
 /**
  *
- * @author Andres
+ * @author krist
  */
+
 public class DlgNuevoProyecto extends javax.swing.JDialog {
 
-    public AlmacenamientoProyectos listaProyectos;
- 
-    Proyectos proyecto;
-    int id;
+    protected AlmacenamientoProyectos listaProyectos;
+    protected Proyectos proyectoEdicion;
 
     /**
-     * Creates new form DlgNuevoAuto
-     *
-     * @param parent
-     * @param modal
+     * Constructor del dialogo sin datos iniciales
+     * @param parent ventana principal
+     * @param modal indica si el dialogo es modal
      */
     public DlgNuevoProyecto(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-
     }
 
+    /**
+     * Constructor para registrar un nuevo proyecto
+     * @param parent ventana principal
+     * @param modal indica si el dialogo es modal
+     * @param listaProyectos lista de proyectos donde se insertara
+     */
     public DlgNuevoProyecto(java.awt.Frame parent, boolean modal, AlmacenamientoProyectos listaProyectos) {
         super(parent, modal);
         initComponents();
         this.listaProyectos = listaProyectos;
-        
+        this.proyectoEdicion = null;
+        txtDuracion.setEditable(false);
     }
 
-    public DlgNuevoProyecto(java.awt.Frame parent, boolean modal, AlmacenamientoProyectos listaProyectos, int id) {
+    /**
+     * Constructor para editar un proyecto existente
+     * @param parent ventana principal
+     * @param modal indica si el dialogo es modal
+     * @param listaProyectos lista de proyectos
+     * @param proyectoEditar proyecto que sera modificado
+     */
+    public DlgNuevoProyecto(java.awt.Frame parent, boolean modal, AlmacenamientoProyectos listaProyectos, Proyectos proyectoEditar) {
         super(parent, modal);
         initComponents();
         this.listaProyectos = listaProyectos;
-        this.id = id;
+        this.proyectoEdicion = proyectoEditar;
+        txtDuracion.setEditable(false);
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -55,17 +66,18 @@ public class DlgNuevoProyecto extends javax.swing.JDialog {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        lblPlaca = new javax.swing.JLabel();
+        lblId = new javax.swing.JLabel();
         txtId = new javax.swing.JTextField();
-        lblMarca = new javax.swing.JLabel();
+        lblNombre = new javax.swing.JLabel();
         txtNombre = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
+        lblEstado = new javax.swing.JLabel();
         cmbEstado = new javax.swing.JComboBox<>();
-        dtpFechaIni = new com.github.lgooddatepicker.components.DatePicker();
-        dtpFechaFin = new com.github.lgooddatepicker.components.DatePicker();
-        jLabel3 = new javax.swing.JLabel();
+        dtpInicio = new com.github.lgooddatepicker.components.DatePicker();
+        dtpFin = new com.github.lgooddatepicker.components.DatePicker();
+        lblDuracion = new javax.swing.JLabel();
+        txtDuracion = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         btnGuardar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
@@ -79,13 +91,13 @@ public class DlgNuevoProyecto extends javax.swing.JDialog {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        lblPlaca.setText("Id");
-        lblPlaca.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblId.setText("Id");
+        lblId.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         txtId.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
-        lblMarca.setText("Nombre");
-        lblMarca.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblNombre.setText("Nombre Proyecto");
+        lblNombre.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         txtNombre.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
@@ -93,7 +105,7 @@ public class DlgNuevoProyecto extends javax.swing.JDialog {
 
         jLabel2.setText("Fecha fin");
 
-        jLabel6.setText("Estado");
+        lblEstado.setText("Estado");
 
         cmbEstado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -101,74 +113,77 @@ public class DlgNuevoProyecto extends javax.swing.JDialog {
             }
         });
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel3.setText("Duración de Días");
+        lblDuracion.setText("Duración de Días");
+        lblDuracion.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addGap(511, 511, 511)
-                        .addComponent(dtpFechaIni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cmbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(288, 288, 288))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addGap(31, 31, 31)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(dtpFechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(lblNombre)
+                                .addComponent(lblId))
+                            .addComponent(lblDuracion, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(68, 68, 68)
+                        .addComponent(lblEstado)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(cmbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtDuracion, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 39, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(lblMarca)
-                                    .addComponent(lblPlaca))
-                                .addGap(3, 3, 3)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel2)
-                                            .addComponent(jLabel1)))
-                                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addContainerGap(16, Short.MAX_VALUE))
+                                .addComponent(jLabel2)
+                                .addGap(33, 33, 33)
+                                .addComponent(dtpFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(18, 18, 18)
+                                .addComponent(dtpInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(16, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblPlaca)
+                    .addComponent(lblId)
                     .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblMarca)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblNombre)
                             .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
+                        .addGap(11, 11, 11)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)))
+                            .addComponent(lblDuracion)
+                            .addComponent(txtDuracion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
-                            .addComponent(dtpFechaIni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(dtpInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addComponent(dtpFechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(69, 69, 69)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(dtpFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblEstado)
                     .addComponent(cmbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(175, Short.MAX_VALUE))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -222,7 +237,7 @@ public class DlgNuevoProyecto extends javax.swing.JDialog {
                         .addContainerGap()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(155, 155, 155)
+                        .addGap(141, 141, 141)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -233,84 +248,120 @@ public class DlgNuevoProyecto extends javax.swing.JDialog {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-//        Proyectos proyecto = this.proyecto;
-//        //Validación de campos vacíos
-//        if (txtId.getText().isBlank()
-//                || txtNombre.getText().isBlank()
-//                || dtpFechaIni.getDate() == null
-//                || dtpFechaFin.getDate() == null
-//                || cmbEstado.getSelectedIndex() >= 0) {
-//
-//            JOptionPane.showMessageDialog(this, "Hay campos vacíos");
-//        } else {
-//            //Agregar try/catch
-//            try {
-//                proyecto.setIdProyecto(Integer.parseInt(txtId.getText()));
-//                proyecto.setNomProyecto(txtNombre.getText());
-//                proyecto.setEstado(listaProyectos.buscar(cmbEstado.getSelectedItem().toString()));
-//                proyecto.setFechInicio(dtpFechaIni.getDate());
-//                proyecto.setFechFin(dtpFechaFin.getDate());
-//
-//
-//                switch (this.getTitle()) {
-//                    case "Agregar Proyecto" -> {
-//                        if (listaProyectos.buscar(proyecto.getIdProyecto()) == null) {
-//
-//                            listaProyectos.insertar(proyecto);
-//                            JOptionPane.showMessageDialog(this, "Id agregado con éxito");
-//                            txtId.setText("");
-//                            txtNombre.setText("");
-//                            txtId.requestFocus();
-//                        } else {
-//                            JOptionPane.showMessageDialog(this, "el id  del proyecto ya existe");
-//                            txtId.requestFocus();
-//                            txtId.setSelectionStart(0);
-//                            txtId.setSelectionEnd(txtId.getText().length());
-//                        }
-//
-//                    }
-//
-//                    case "Editar Colaborador" -> {
-//                        listaProyectos.modificar(id, proyecto);
-//                        JOptionPane.showMessageDialog(this, "Colaborador editado con éxito");
-//                        this.dispose();
-//
-//                    }
-//                }
-//
-//            } catch (NumberFormatException e) {
-//                JOptionPane.showMessageDialog(this, "");
-//            }            cmbEstado.addItem(p.getNomPuesto());
-//
-//
-//        }
+        if (txtId.getText().isBlank()
+                || txtNombre.getText().isBlank()
+                || dtpInicio.getDate() == null
+                || dtpFin.getDate() == null
+                || cmbEstado.getSelectedIndex() < 0) {
+            JOptionPane.showMessageDialog(this, "Hay campos vacios");
+            return;
+        }
+
+        int id;
+        try {
+            id = Integer.parseInt(txtId.getText().trim());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "ID debe ser numerico");
+            return;
+        }
+
+        LocalDate inicio = dtpInicio.getDate();
+        LocalDate fin = dtpFin.getDate();
+
+        String nombre = txtNombre.getText().trim();
+        int duracionDias = calcularDuracionDias();
+        String estado = cmbEstado.getSelectedItem().toString();
+
+        if (proyectoEdicion == null) {
+            if (listaProyectos.buscar(id) != null) {
+                JOptionPane.showMessageDialog(this, "El ID de proyecto ya existe");
+                txtId.requestFocus();
+                txtId.selectAll();
+                return;
+            }
+            Proyectos nuevo = new Proyectos(id, nombre, inicio, fin, duracionDias, estado, 0);
+            listaProyectos.insertar(nuevo);
+            JOptionPane.showMessageDialog(this, "Proyecto agregado con exito");
+            dispose();
+        } else {
+            Proyectos modificado = new Proyectos(
+                    proyectoEdicion.getIdProyecto(),
+                    nombre,
+                    inicio,
+                    fin,
+                    duracionDias,
+                    estado,
+                    proyectoEdicion.getPorcAvance()
+            );
+            boolean ok = listaProyectos.modificar(modificado);
+            if (!ok) {
+                JOptionPane.showMessageDialog(this, "No se pudo modificar el proyecto");
+                return;
+            }
+            JOptionPane.showMessageDialog(this, "Proyecto editado con exito");
+            dispose();
+        }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-// cmbEstado.removeAllItems();
-//        for (Puestos p: listaProyectos.getListaPuestos()) {
-//        }
-//
-//        if (this.getTitle().equals("Editar Colaborador")) {
-//            txtId.setText(String.valueOf(colab.getCedula()));
-//            txtId.setEnabled(false);
-//            txtNombre.setText(colab.getNombre());
-//           
-//
-//            cmbEstado.setSelectedItem(proyecto.getEstado().getNomProyecto());
-//            dtpFechaIni.setDate(proyecto.getFechInicio());
-//            dtpFechaFin.setDate(proyecto.getFechFin());
-//
-//
-//        }
+        // cargar enum en el combo
+        cmbEstado.removeAllItems();
+        for (EstadoTarea e : EstadoTarea.values()) {
+            cmbEstado.addItem(e.name());
+        }
 
+        if (proyectoEdicion != null) {
+            txtId.setText(String.valueOf(proyectoEdicion.getIdProyecto()));
+            txtId.setEnabled(false);
+            txtNombre.setText(proyectoEdicion.getNomProyecto());
+
+            if (proyectoEdicion.getFechInicio() != null) {
+                dtpInicio.setDate(proyectoEdicion.getFechInicio());
+            }
+            if (proyectoEdicion.getFechFin() != null) {
+                dtpFin.setDate(proyectoEdicion.getFechFin());
+            }
+
+            String estadoActual = "";
+            if (proyectoEdicion.getEstado() != null) {
+                estadoActual = proyectoEdicion.getEstado();
+            }
+
+            boolean seleccionado = false;
+            for (int i = 0; i < cmbEstado.getItemCount(); i++) {
+                String item = cmbEstado.getItemAt(i);
+                if (item != null && item.equalsIgnoreCase(estadoActual)) {
+                    cmbEstado.setSelectedIndex(i);
+                    seleccionado = true;
+                    break;
+                }
+            }
+            if (!seleccionado) {
+                if (cmbEstado.getItemCount() > 0) {
+                    cmbEstado.setSelectedIndex(0);
+                }
+            }
+
+            txtDuracion.setText(String.valueOf(calcularDuracionDias()));
+        } else {
+            txtId.setEnabled(true);
+            txtId.requestFocus();
+            txtNombre.setText("");
+            dtpInicio.setDate(null);
+            dtpFin.setDate(null);
+            txtDuracion.setText("0");
+
+            if (cmbEstado.getItemCount() > 0) {
+                cmbEstado.setSelectedIndex(0);
+            }
+        }
     }//GEN-LAST:event_formWindowActivated
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -322,76 +373,99 @@ public class DlgNuevoProyecto extends javax.swing.JDialog {
     }//GEN-LAST:event_cmbEstadoActionPerformed
 
     /**
+     * Calcula la duracion en dias entre inicio y fin de forma inclusiva
+     * @return numero de dias o 0 si faltan fechas
+     */
+    private int calcularDuracionDias() {
+        LocalDate inicio = dtpInicio.getDate();
+        LocalDate fin = dtpFin.getDate();
+
+        if (inicio == null || fin == null) {
+            return 0;
+        }
+
+        long dias = ChronoUnit.DAYS.between(inicio, fin) + 1;
+
+        if (dias < 0) {
+            dias = 0;
+        }
+
+        int resultado = (int) dias;
+        return resultado;
+    }
+
+    /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+    /* Set the Nimbus look and feel */
+    //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+    /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
+     */
+    try {
+        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+            if ("Nimbus".equals(info.getName())) {
+                javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                break;
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DlgNuevoProyecto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DlgNuevoProyecto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DlgNuevoProyecto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DlgNuevoProyecto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                DlgNuevoProyecto dialog = new DlgNuevoProyecto(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
+    } catch (ClassNotFoundException ex) {
+        java.util.logging.Logger.getLogger(DlgNuevoProyecto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    } catch (InstantiationException ex) {
+        java.util.logging.Logger.getLogger(DlgNuevoProyecto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    } catch (IllegalAccessException ex) {
+        java.util.logging.Logger.getLogger(DlgNuevoProyecto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        java.util.logging.Logger.getLogger(DlgNuevoProyecto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
     }
+    //</editor-fold>
+    //</editor-fold>
+    //</editor-fold>
+    //</editor-fold>
+    //</editor-fold>
+    //</editor-fold>
+    //</editor-fold>
+    //</editor-fold>
+    //</editor-fold>
+    //</editor-fold>
+    //</editor-fold>
+    //</editor-fold>
+    //</editor-fold>
+    //</editor-fold>
+    //</editor-fold>
+    //</editor-fold>
+
+    /* Create and display the dialog */
+    java.awt.EventQueue.invokeLater(new Runnable() {
+        public void run() {
+            DlgNuevoProyecto dialog = new DlgNuevoProyecto(new javax.swing.JFrame(), true);
+            dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                @Override
+                public void windowClosing(java.awt.event.WindowEvent e) {
+                    System.exit(0);
+                }
+            });
+            dialog.setVisible(true);
+        }
+    });
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JComboBox<String> cmbEstado;
-    private com.github.lgooddatepicker.components.DatePicker dtpFechaFin;
-    private com.github.lgooddatepicker.components.DatePicker dtpFechaIni;
+    private com.github.lgooddatepicker.components.DatePicker dtpFin;
+    private com.github.lgooddatepicker.components.DatePicker dtpInicio;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JLabel lblMarca;
-    private javax.swing.JLabel lblPlaca;
+    private javax.swing.JLabel lblDuracion;
+    private javax.swing.JLabel lblEstado;
+    private javax.swing.JLabel lblId;
+    private javax.swing.JLabel lblNombre;
+    private javax.swing.JTextField txtDuracion;
     private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
