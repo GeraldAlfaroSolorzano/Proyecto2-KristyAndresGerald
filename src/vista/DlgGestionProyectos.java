@@ -1,40 +1,48 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
- */
+
 package vista;
 
 
+
+
 import datos.AlmacenamientoProyectos;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import logica.Colaborador;
 import logica.Proyectos;
-import logica.Puestos;
+
+import vista.DlgNuevoProyecto;
 
 /**
+ * Dialogo de gestion de colaboradores Permite visualizar, editar y administrar
+ * los datos de los colaboradores registrados Utiliza instancias de
+ * AlmacenamientoColab y AlmacenamientoPuestos para operar sobre los datos
  *
- * @author jonat
+ * @author Andres
  */
+
 public class DlgGestionProyectos extends javax.swing.JDialog {
 
     protected AlmacenamientoProyectos listaProyectos;
     private DefaultTableModel tblModel;
 
+   
     /**
-     * Creates new form DlgGestionAutos
+     * Crea una nueva instancia del dialogo sin listas de datos
+     *
+     * @param parent ventana padre
+     * @param modal indica si el dialogo es modal
      */
     public DlgGestionProyectos(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
 
-    public DlgGestionProyectos(java.awt.Frame parent, boolean modal,
-            AlmacenamientoProyectos listaPuestos) {
+    
+    public DlgGestionProyectos(java.awt.Frame parent, boolean modal, AlmacenamientoProyectos listaProyectos) {
         super(parent, modal);
         initComponents();
         this.listaProyectos = listaProyectos;
+        
     }
 
     /**
@@ -53,7 +61,7 @@ public class DlgGestionProyectos extends javax.swing.JDialog {
         btnEditar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblProyectos = new javax.swing.JTable();
+        tblProyecto = new javax.swing.JTable();
         lblCant = new javax.swing.JLabel();
         txtCant = new javax.swing.JTextField();
 
@@ -111,7 +119,7 @@ public class DlgGestionProyectos extends javax.swing.JDialog {
                 .addComponent(lblBuscar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
                 .addComponent(btnInsertar, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -132,7 +140,7 @@ public class DlgGestionProyectos extends javax.swing.JDialog {
                 .addContainerGap(15, Short.MAX_VALUE))
         );
 
-        tblProyectos.setModel(new javax.swing.table.DefaultTableModel(
+        tblProyecto.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -140,10 +148,10 @@ public class DlgGestionProyectos extends javax.swing.JDialog {
 
             }
         ));
-        jScrollPane1.setViewportView(tblProyectos);
+        jScrollPane1.setViewportView(tblProyecto);
 
         lblCant.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblCant.setText("Cantidad de Proyectos:");
+        lblCant.setText("Cantidad de Proyectos");
 
         txtCant.setEditable(false);
 
@@ -181,74 +189,199 @@ public class DlgGestionProyectos extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+/**
+     * Abre el dialogo para insertar un nuevo colaborador Actualiza la lista de
+     * colaboradores si se agrego uno nuevo
+     *
+     * @param evt evento de accion generado por el boton insertar
+     */
 
     private void btnInsertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertarActionPerformed
-   
+        DlgNuevoProyecto win = new DlgNuevoProyecto(null, true, listaProyectos);
+        win.setTitle("Agregar un nuevo Proyecto");
+        win.setLocationRelativeTo(null);
+        win.setVisible(true);
+        this.listaProyectos = win.listaProyectos;
     }//GEN-LAST:event_btnInsertarActionPerformed
+    /**
+     * Se ejecuta al activar la ventana Refresca la tabla de colaboradores
+     * mostrados
+     *
+     * @param evt evento de activacion de ventana
+     */
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-        actualizarTabla();
+//        mostrarTablaProyectos();
     }//GEN-LAST:event_formWindowActivated
+    /**
+     * Elimina el proyecto seleccionado en la tabla si existe Solicita
+     * confirmacion antes de eliminar y muestra mensajes segun el resultado
+     *
+     * @param evt evento de accion generado por el boton eliminar
+     */
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-   
+        if (tblProyecto.getSelectedRowCount() == 1) {
+            int fila = tblProyecto.getSelectedRow();
+            int id = listaProyectos.getListaProyectos().get(fila).getIdProyecto();
+
+            int resp = JOptionPane.showConfirmDialog(this, "¿Desea eliminar el proyecto?");
+            if (resp == JOptionPane.YES_OPTION) {
+                if (listaProyectos.eliminar(id)) {
+                    JOptionPane.showMessageDialog(this, "Proyecto eliminado");
+                    // Aquí podrías actualizar la tabla para reflejar el cambio
+                } else {
+                    JOptionPane.showMessageDialog(this, "No se pudo eliminar el proyecto");
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un solo proyecto");
+        }
+    }
+
     }//GEN-LAST:event_btnEliminarActionPerformed
+    /**
+     * Abre el dialogo para editar el colaborador seleccionado Carga los datos
+     * del colaborador y actualiza la lista si se modifico
+     *
+     * @param evt evento de accion generado por el boton editar
+     */
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-    
+//        if (tblProyecto.getSelectedRowCount() == 1) {
+//        int fila = tblProyecto.getSelectedRow();
+//        Proyectos proyectoOriginal = listaProyectos.getListaProyectos().get(fila);
+//
+//        // Obtener el nuevo nombre desde el campo de texto
+//        String nuevoNombre = txtId.getText().trim();
+//
+//        // Validar que el nombre no esté vacío
+//        if (nuevoNombre.isEmpty()) {
+//            JOptionPane.showMessageDialog(this, "El nombre no puede estar vacío");
+//            return;
+//        }
+//
+//        // Crear el proyecto modificado con el mismo ID y nuevo nombre
+//        Proyectos proyectoModificado = new Proyectos();
+//        proyectoModificado.setIdProyecto(proyectoOriginal.getIdProyecto());
+//        proyectoModificado.setNombre(nuevoNombre);
+//
+//        // Intentar modificar en el almacenamiento
+//        if (listaProyectos.modificar(proyectoModificado)) {
+//            JOptionPane.showMessageDialog(this, "Proyecto modificado correctamente");
+//            
+//        } else {
+//            JOptionPane.showMessageDialog(this, "No se pudo modificar el proyecto");
+//        }
+//    } else {
+//        JOptionPane.showMessageDialog(this, "Debe seleccionar un solo proyecto para editar");
+//    }
+
     }//GEN-LAST:event_btnEditarActionPerformed
+    /**
+     * Filtra los colaboradores segun el texto ingresado en el campo de busqueda
+     * Actualiza la tabla mostrando solo los que coinciden por cedula, nombre o
+     * puesto
+     *
+     * @param evt evento de tecla liberada en el campo de texto
+     */
 
     private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
-        
+//         try {
+//        int idBuscado = Integer.parseInt(txtIdBuscar.getText().trim());
+//
+//        Proyectos proyectoEncontrado = listaProyectos.buscar(idBuscado);
+//
+//        if (proyectoEncontrado != null) {
+//            txtNombre.setText(proyectoEncontrado.getNombre());
+//            JOptionPane.showMessageDialog(this, "Proyecto encontrado");
+//        } else {
+//            JOptionPane.showMessageDialog(this, "No se encontró ningún proyecto con ese ID");
+//            txtNombre.setText("");
+//        }
+//    } catch (NumberFormatException e) {
+//        JOptionPane.showMessageDialog(this, "El ID debe ser un número entero");
+//    }
+//}
+
     }//GEN-LAST:event_txtBuscarKeyReleased
 
-   private void actualizarTabla() {
+    /**
+     * Detecta doble clic sobre la tabla cuando se esta seleccionando un jefe
+     * Asigna la cedula y nombre del jefe seleccionado y cierra el dialogo
+     *
+     * @param evt evento de clic del mouse sobre la tabla
+     */
+   
+
+        
+}
 }
 
     /**
-     * @param args the command line arguments
+     * Carga todos los colaboradores en la tabla sin aplicar filtros Muestra la
+     * cantidad total en el campo correspondiente
+     */
+//    public void mostrarTablaProyectos() {
+//    DefaultTableModel modelo = (DefaultTableModel) tblProyecto.getModel();
+//    modelo.setRowCount(0); // Limpiar la tabla
+//
+//    for (Proyectos p : listaProyectos.mostrar()) {
+//        Object[] fila = { p.getIdProyecto(), p.getNombre() };
+//        modelo.addRow(fila);
+//    }
+}
+    /**
+     * Metodo principal que inicia el dialogo de gestion de colaboradores
+     * Configura el estilo visual y lanza la ventana en el hilo de eventos
+     *
+     * @param args argumentos de linea de comandos
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+    /* Set the Nimbus look and feel */
+    //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+    /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
+     */
+    try {
+        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+            if ("Nimbus".equals(info.getName())) {
+                javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                break;
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DlgGestionProyectos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DlgGestionProyectos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DlgGestionProyectos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DlgGestionProyectos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                DlgGestionProyectos dialog = new DlgGestionProyectos(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
+    } catch (ClassNotFoundException ex) {
+        java.util.logging.Logger.getLogger(DlgGestionProyectos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    } catch (InstantiationException ex) {
+        java.util.logging.Logger.getLogger(DlgGestionProyectos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    } catch (IllegalAccessException ex) {
+        java.util.logging.Logger.getLogger(DlgGestionProyectos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        java.util.logging.Logger.getLogger(DlgGestionProyectos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
     }
+    //</editor-fold>
+    //</editor-fold>
+    //</editor-fold>
+    //</editor-fold>
+    //</editor-fold>
+    //</editor-fold>
+    //</editor-fold>
+    //</editor-fold>
+
+    /* Create and display the dialog */
+    java.awt.EventQueue.invokeLater(new Runnable() {
+        public void run() {
+            DlgGestionProyectos dialog = new DlgGestionProyectos(new javax.swing.JFrame(), true);
+            dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                @Override
+                public void windowClosing(java.awt.event.WindowEvent e) {
+                    System.exit(0);
+                }
+            });
+            dialog.setVisible(true);
+        }
+    });
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEditar;
@@ -258,7 +391,7 @@ public class DlgGestionProyectos extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblBuscar;
     private javax.swing.JLabel lblCant;
-    private javax.swing.JTable tblProyectos;
+    private javax.swing.JTable tblProyecto;
     private javax.swing.JTextField txtBuscar;
     private javax.swing.JTextField txtCant;
     // End of variables declaration//GEN-END:variables

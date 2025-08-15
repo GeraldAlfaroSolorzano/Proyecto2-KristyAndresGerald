@@ -18,6 +18,14 @@ public class AlmacenamientoProyectos {
      */
     private ArrayList<Proyectos> listaProyectos;
 
+    public void setListaProyectos(ArrayList<Proyectos> listaProyectos) {
+        this.listaProyectos = listaProyectos;
+    }
+
+    public ArrayList<Proyectos> getListaProyectos() {
+        return listaProyectos;
+    }
+
     /**
      * Constructor que inicializa la lista de proyectos vacia
      */

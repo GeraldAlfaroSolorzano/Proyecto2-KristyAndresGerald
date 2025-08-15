@@ -5,6 +5,7 @@
 package vista;
 
 import datos.AlmacenamientoColab;
+import datos.AlmacenamientoProyectos;
 import datos.AlmacenamientoPuestos;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -17,6 +18,7 @@ public class FrmSistema extends javax.swing.JFrame {
 
     AlmacenamientoPuestos listaPuestos = new AlmacenamientoPuestos();
     AlmacenamientoColab listaColab = new AlmacenamientoColab();
+    AlmacenamientoProyectos listaProyectos = new AlmacenamientoProyectos();
     /**
      * Creates new form SistemaPlanilla
      */
@@ -37,7 +39,7 @@ public class FrmSistema extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         btnPuestos = new javax.swing.JButton();
         btnColabs = new javax.swing.JButton();
-        btnPluses = new javax.swing.JButton();
+        btnProyectos = new javax.swing.JButton();
         btnAsignarPluses = new javax.swing.JButton();
         btnPlanillas = new javax.swing.JButton();
         btnPlanillas1 = new javax.swing.JButton();
@@ -81,13 +83,13 @@ public class FrmSistema extends javax.swing.JFrame {
             }
         });
 
-        btnPluses.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnPluses.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Gestion de proyectos.png"))); // NOI18N
-        btnPluses.setText("Gestión de Proyectos");
-        btnPluses.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
-        btnPluses.addActionListener(new java.awt.event.ActionListener() {
+        btnProyectos.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnProyectos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Gestion de proyectos.png"))); // NOI18N
+        btnProyectos.setText("Gestión de Proyectos");
+        btnProyectos.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
+        btnProyectos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPlusesActionPerformed(evt);
+                btnProyectosActionPerformed(evt);
             }
         });
 
@@ -134,7 +136,7 @@ public class FrmSistema extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnColabs)
-                            .addComponent(btnPluses, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnProyectos, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
@@ -147,7 +149,7 @@ public class FrmSistema extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAsignarPluses, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnPluses, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnProyectos, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(73, 73, 73)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnPlanillas, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -242,9 +244,14 @@ public class FrmSistema extends javax.swing.JFrame {
         this.listaColab = winColab.listaColab;
     }//GEN-LAST:event_btnColabsActionPerformed
 
-    private void btnPlusesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlusesActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnPlusesActionPerformed
+    private void btnProyectosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProyectosActionPerformed
+//        DlgGestionProyectos winProyectos = new DlgGestionProyectos(this, false, listaProyectos);
+//        winProyectos.setLocationRelativeTo(null);
+//        winProyectos.setTitle("Gestión de Proyectos");
+//        winProyectos.setVisible(true);
+//
+//        this.listaProyectos = winProyectos.listaProyectos; 
+    }//GEN-LAST:event_btnProyectosActionPerformed
 
     private void btnAsignarPlusesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignarPlusesActionPerformed
         // TODO add your handling code here:
@@ -302,7 +309,7 @@ public class FrmSistema extends javax.swing.JFrame {
     private javax.swing.JButton btnColabs;
     private javax.swing.JButton btnPlanillas;
     private javax.swing.JButton btnPlanillas1;
-    private javax.swing.JButton btnPluses;
+    private javax.swing.JButton btnProyectos;
     private javax.swing.JButton btnPuestos;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
