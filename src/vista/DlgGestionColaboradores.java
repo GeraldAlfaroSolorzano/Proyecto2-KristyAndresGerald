@@ -23,7 +23,7 @@ public class DlgGestionColaboradores extends javax.swing.JDialog {
     protected String nombreJefe;
 
     /**
-     * Crea una nueva instancia del dialogo sin listas de datos
+     * Crea una nueva instancia del dialogo
      *
      * @param parent ventana padre
      * @param modal indica si el dialogo es modal
