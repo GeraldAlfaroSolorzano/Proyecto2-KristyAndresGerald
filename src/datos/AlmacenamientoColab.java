@@ -5,6 +5,7 @@ import logica.Colaborador;
 /**
  * Clase que gestiona el almacenamiento de colaboradores en una lista
  * Permite realizar operaciones CRUD sobre objetos de tipo Colaborador
+ * 
  * @author Andres
  */
 public class AlmacenamientoColab {
@@ -36,6 +37,7 @@ public class AlmacenamientoColab {
 
     /**
      * Inserta un colaborador si no existe otro con el mismo id o cedula
+     * genera un id
      * @param c colaborador a insertar
      * @return true si se inserto correctamente, false si es null o ya existe
      */
@@ -43,6 +45,19 @@ public class AlmacenamientoColab {
         if (c == null) {
             return false;
         }
+
+        // autogenera id
+        if (c.getIdColaborador() <= 0) {
+            int max = 0;
+            for (Colaborador x : this.arrayColab) {
+                if (x.getIdColaborador() > max) {
+                    max = x.getIdColaborador();
+                }
+            }
+            c.setIdColaborador(max + 1);
+        }
+
+        // valida id 
         if (buscarPorId(c.getIdColaborador()) == null && buscaCedula(c.getCedula()) == null) {
             this.arrayColab.add(c);
             return true;
@@ -69,8 +84,15 @@ public class AlmacenamientoColab {
      * @param index posicion en la lista
      * @param newColab nuevo colaborador a asignar
      */
-    public void editarColab(int index, Colaborador newColab) {
+    public boolean editarColab(int index, Colaborador newColab) {
+        if (newColab == null) {
+            return false;
+        }
+        if (index < 0 || index >= this.arrayColab.size()) {
+            return false;
+        }
         this.arrayColab.set(index, newColab);
+        return true;
     }
 
     /**

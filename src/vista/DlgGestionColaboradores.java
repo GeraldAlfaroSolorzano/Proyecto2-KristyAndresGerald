@@ -8,8 +8,8 @@ import logica.Colaborador;
 
 /**
  * Dialogo de gestion de colaboradores Permite visualizar, editar y administrar
- * los datos de los colaboradores registrados Utiliza instancias de
- * AlmacenamientoColab y AlmacenamientoPuestos para operar sobre los datos
+ * los datos de los colaboradores registrados 
+ * Utiliza instancias de AlmacenamientoColab y AlmacenamientoPuestos para operar sobre los datos
  *
  * @author Andres
  */
@@ -194,8 +194,7 @@ public class DlgGestionColaboradores extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 /**
-     * Abre el dialogo para insertar un nuevo colaborador Actualiza la lista de
-     * colaboradores si se agrego uno nuevo
+     * Abre el dialogo para insertar un nuevo colaborador 
      *
      * @param evt evento de accion generado por el boton insertar
      */
@@ -208,9 +207,8 @@ public class DlgGestionColaboradores extends javax.swing.JDialog {
         this.listaColab = win.listaColab;
     }//GEN-LAST:event_btnInsertarActionPerformed
     /**
-     * Se ejecuta al activar la ventana Refresca la tabla de colaboradores
-     * mostrados
-     *
+     * Se ejecuta al activar la ventana 
+     * 
      * @param evt evento de activacion de ventana
      */
 
@@ -218,85 +216,90 @@ public class DlgGestionColaboradores extends javax.swing.JDialog {
         muestraTabla();
     }//GEN-LAST:event_formWindowActivated
     /**
-     * Elimina el colaborador seleccionado en la tabla si existe Solicita
-     * confirmacion antes de eliminar y muestra mensajes segun el resultado
+     * Elimina el colaborador seleccionado en la tabla si existe
      *
      * @param evt evento de accion generado por el boton eliminar
      */
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        if (tblColab.getSelectedRowCount() == 1) {
-            int ced = listaColab.getArrayColab().get(tblColab.getSelectedRow()).getCedula();
-            int resp = JOptionPane.showConfirmDialog(this, "Quiere eliminar el Colaborador?");
-            //System.out.println(resp);
-            if (resp == 0) {  //Sí quiere eliminar el auto
-                if (listaColab.eliminarColab(listaColab.buscaCedula(ced))) {
-                    JOptionPane.showMessageDialog(this, "Colaborador eliminado");
-                }
-            }
-        } else {
+        int fila = tblColab.getSelectedRow();
+        if (fila == -1) {
             JOptionPane.showMessageDialog(this, "Debe seleccionar 1 Colaborador");
+            return;
+        }
+        // tomar cedula desde la tabla
+        int ced = Integer.parseInt(tblColab.getValueAt(fila, 0).toString());
+        int resp = JOptionPane.showConfirmDialog(this, "Quiere eliminar el Colaborador?");
+        if (resp == JOptionPane.YES_OPTION) {
+            if (listaColab.eliminarColab(listaColab.buscaCedula(ced))) {
+                JOptionPane.showMessageDialog(this, "Colaborador eliminado");
+                muestraTabla();
+            } else {
+                JOptionPane.showMessageDialog(this, "No se pudo eliminar");
+            }
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
     /**
-     * Abre el dialogo para editar el colaborador seleccionado Carga los datos
-     * del colaborador y actualiza la lista si se modifico
+     * Abre el dialogo para editar el colaborador seleccionado 
      *
      * @param evt evento de accion generado por el boton editar
      */
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        if (tblColab.getSelectedRowCount() == 1) {
-            int pos = tblColab.getSelectedRow();
-            int ced = listaColab.getArrayColab().get(tblColab.getSelectedRow()).getCedula();
-
-            Colaborador colab = listaColab.buscaCedula(ced);
-
-            DlgNuevoColaborador winEditar = new DlgNuevoColaborador(null, true, listaColab, colab, pos, listaPuestos);
-
-            winEditar.setTitle("Editar Colabprador");
-            winEditar.setLocationRelativeTo(null);
-            winEditar.setVisible(true);
-
-            this.listaColab = winEditar.listaColab;
-        } else {
+        int fila = tblColab.getSelectedRow();
+        if (fila == -1) {
             JOptionPane.showMessageDialog(this, "Debe seleccionar 1 Colaborador");
+            return;
         }
+        int ced = Integer.parseInt(tblColab.getValueAt(fila, 0).toString());
+        Colaborador colab = listaColab.buscaCedula(ced);
+        if (colab == null) {
+            JOptionPane.showMessageDialog(this, "No se encontro el colaborador");
+            return;
+        }
+        // calcular posicion en la lista
+        int pos = listaColab.getArrayColab().indexOf(colab);
+
+        DlgNuevoColaborador winEditar =
+            new DlgNuevoColaborador(null, true, listaColab, colab, pos, listaPuestos);
+
+        winEditar.setTitle("Editar Colaborador");
+        winEditar.setLocationRelativeTo(null);
+        winEditar.setVisible(true);
+
+        this.listaColab = winEditar.listaColab;
+        muestraTabla();
     }//GEN-LAST:event_btnEditarActionPerformed
     /**
      * Filtra los colaboradores segun el texto ingresado en el campo de busqueda
-     * Actualiza la tabla mostrando solo los que coinciden por cedula, nombre o
-     * puesto
-     *
+     * 
      * @param evt evento de tecla liberada en el campo de texto
      */
 
     private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
         String titulo[] = {"Cédula", "Nombre", "Teléfono", "Email",
-            "Dirección", "Puesto", "Fecha Nac", "Fecha Ingreso",
-            "Fecha Despido", "Jefe"};
-
-        Colaborador colab;
+                           "Dirección", "Puesto", "Fecha Nac", "Fecha Ingreso"};
 
         tblModel = new DefaultTableModel(null, titulo);
 
-        for (int i = 0; i < listaColab.getArrayColab().size(); i++) {
-            colab = listaColab.getArrayColab().get(i);
+        String filtro = txtBuscar.getText().toLowerCase();
 
-            if (String.valueOf(colab.getCedula()).contains(txtBuscar.getText())
-                    || colab.getNombre().toLowerCase().contains(txtBuscar.getText().toLowerCase())
-                    || colab.getPuesto().getNomPuesto().contains(txtBuscar.getText().toLowerCase())) {
-                String puesto = listaColab.getArrayColab().get(i).
-                        getPuesto().getNomPuesto();
-                Object row[] = {listaColab.getArrayColab().get(i).getCedula(),
-                    listaColab.getArrayColab().get(i).getNombre(),
-                    listaColab.getArrayColab().get(i).getTelefono(),
-                    listaColab.getArrayColab().get(i).getEmail(),
-                    listaColab.getArrayColab().get(i).getDireccion(),
-                    puesto,
-                    listaColab.getArrayColab().get(i).getFechaNac(),
-                    listaColab.getArrayColab().get(i).getFechIngreso()};
+        for (Colaborador colab : listaColab.getArrayColab()) {
+            String nomPuesto = (colab.getPuesto() != null) ? colab.getPuesto().getNomPuesto() : "";
+            if (String.valueOf(colab.getCedula()).contains(filtro)
+                    || colab.getNombre().toLowerCase().contains(filtro)
+                    || nomPuesto.toLowerCase().contains(filtro)) {
 
+                Object row[] = {
+                    colab.getCedula(),
+                    colab.getNombre(),
+                    colab.getTelefono(),
+                    colab.getEmail(),
+                    colab.getDireccion(),
+                    nomPuesto,
+                    colab.getFechaNac(),
+                    colab.getFechIngreso()
+                };
                 tblModel.addRow(row);
             }
         }
@@ -306,43 +309,27 @@ public class DlgGestionColaboradores extends javax.swing.JDialog {
     }//GEN-LAST:event_txtBuscarKeyReleased
 
     /**
-     * Detecta doble clic sobre la tabla cuando se esta seleccionando un jefe
-     * Asigna la cedula y nombre del jefe seleccionado y cierra el dialogo
-     *
-     * @param evt evento de clic del mouse sobre la tabla
-     */
-    private void tblColabMousePressed(java.awt.event.MouseEvent evt) {
-        if (evt.getClickCount() == 2 && this.getTitle().equals("Seleccione el Jefe")) {
-            this.cedJefe = Integer.parseInt(tblColab.getValueAt(tblColab.getSelectedRow(), 0).toString());
-
-            this.nombreJefe = tblColab.getValueAt(tblColab.getSelectedRow(), 1).toString();
-
-            this.dispose();
-        }
-    }
-
-    /**
-     * Carga todos los colaboradores en la tabla sin aplicar filtros Muestra la
-     * cantidad total en el campo correspondiente
+     * Carga todos los colaboradores en la tabla sin aplicar filtros 
+     * 
      */
     private void muestraTabla() {
         String titulo[] = {"Cédula", "Nombre", "Teléfono", "Email",
-            "Dirección", "Puesto", "Fecha Nac", "Fecha Ingreso",
-            "Fecha Despido", "Jefe"};
+                           "Dirección", "Puesto", "Fecha Nac", "Fecha Ingreso"};
 
         tblModel = new DefaultTableModel(null, titulo);
-        for (int i = 0; i < listaColab.getArrayColab().size(); i++) {
-            String puesto = listaColab.getArrayColab().get(i).
-                    getPuesto().getNomPuesto();
-            Object row[] = {listaColab.getArrayColab().get(i).getCedula(),
-                listaColab.getArrayColab().get(i).getNombre(),
-                listaColab.getArrayColab().get(i).getTelefono(),
-                listaColab.getArrayColab().get(i).getEmail(),
-                listaColab.getArrayColab().get(i).getDireccion(),
-                puesto,
-                listaColab.getArrayColab().get(i).getFechaNac(),
-                listaColab.getArrayColab().get(i).getFechIngreso()};
 
+        for (Colaborador c : listaColab.getArrayColab()) {
+            String nomPuesto = (c.getPuesto() != null) ? c.getPuesto().getNomPuesto() : "";
+            Object row[] = {
+                c.getCedula(),
+                c.getNombre(),
+                c.getTelefono(),
+                c.getEmail(),
+                c.getDireccion(),
+                nomPuesto,
+                c.getFechaNac(),
+                c.getFechIngreso() 
+            };
             tblModel.addRow(row);
         }
 
@@ -352,7 +339,6 @@ public class DlgGestionColaboradores extends javax.swing.JDialog {
 
     /**
      * Metodo principal que inicia el dialogo de gestion de colaboradores
-     * Configura el estilo visual y lanza la ventana en el hilo de eventos
      *
      * @param args argumentos de linea de comandos
      */

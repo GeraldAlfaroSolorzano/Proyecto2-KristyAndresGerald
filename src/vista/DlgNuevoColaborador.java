@@ -7,36 +7,56 @@ import logica.Colaborador;
 import logica.Puestos;
 
 /**
- *
+ * Dialogo para crear y editar colaboradores
+ * 
  * @author Andres
  */
 public class DlgNuevoColaborador extends javax.swing.JDialog {
-
+    
     protected AlmacenamientoColab listaColab;
     protected AlmacenamientoPuestos listaPuestos;
     Colaborador colab;
     int pos;
+    private boolean modoEdicion;
 
     /**
-     * Creates new form DlgNuevoAuto
+     * Constructor del dialogo sin datos iniciales
      *
-     * @param parent
-     * @param modal
+     * @param parent ventana principal
+     * @param modal indica si el dialogo es modal
      */
     public DlgNuevoColaborador(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-
+        this.modoEdicion = false;
     }
 
+    /**
+     * Constructor del dialogo con listas 
+     * @param parent ventana principal
+     * @param modal indica si el dialogo es modal
+     * @param listaColab almacenamiento de colaboradores
+     * @param listaPuestos almacenamiento de puestos
+     */
     public DlgNuevoColaborador(java.awt.Frame parent, boolean modal, AlmacenamientoColab listaColab, AlmacenamientoPuestos listaPuestos) {
         super(parent, modal);
         initComponents();
         this.listaColab = listaColab;
         this.listaPuestos = listaPuestos;
         this.colab = new Colaborador();
+        this.modoEdicion = false;
     }
-
+    
+    /**
+     * Constructor del dialogo para un colaborador existente
+     *
+     * @param parent ventana principal
+     * @param modal indica si el dialogo es modal
+     * @param listaColab almacenamiento de colaboradores
+     * @param colab colaborador a editar
+     * @param pos posicion del colaborador en la lista
+     * @param listaPuestos almacenamiento de puestos
+     */
     public DlgNuevoColaborador(java.awt.Frame parent, boolean modal, AlmacenamientoColab listaColab, Colaborador colab, int pos, AlmacenamientoPuestos listaPuestos) {
         super(parent, modal);
         initComponents();
@@ -44,6 +64,7 @@ public class DlgNuevoColaborador extends javax.swing.JDialog {
         this.colab = colab;
         this.listaPuestos = listaPuestos;
         this.pos = pos;
+        this.modoEdicion = true;
     }
 
     /**
@@ -273,9 +294,15 @@ public class DlgNuevoColaborador extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Inserta un colaborador nuevo o actualiza el
+     * existente
+     * 
+     * @param evt evento de boton guardar
+     */
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         Colaborador colab = this.colab;
-        //Validación de campos vacíos
+
         if (txtCedula.getText().isBlank()
                 || txtNombre.getText().isBlank()
                 || txtDireccion.getText().isBlank()
@@ -285,61 +312,59 @@ public class DlgNuevoColaborador extends javax.swing.JDialog {
                 || dtpFechaIngreso.getDate() == null
                 || cmbPuesto.getSelectedIndex() == -1) {
 
-            JOptionPane.showMessageDialog(this, "Hay campos vacíos");
-        } else {
-            //Agregar try/catch
-            try {
-                colab.setCedula(Integer.parseInt(txtCedula.getText()));
-                colab.setNombre(txtNombre.getText());
-                colab.setTelefono(Integer.parseInt(txtTelefono.getText()));
-                colab.setEmail(txtEmail.getText());
-                colab.setDireccion(txtDireccion.getText());
-                colab.setPuesto(listaPuestos.buscaPuesto(cmbPuesto.getSelectedItem().toString()));
-                colab.setFechaNac(dtpFechaNac.getDate());
-                colab.setFechIngreso(dtpFechaIngreso.getDate());
+            JOptionPane.showMessageDialog(this, "Hay campos vacios");
+            return;
+        }
 
+        try {
+            colab.setCedula(Integer.parseInt(txtCedula.getText().trim()));
+            colab.setNombre(txtNombre.getText().trim());
+            colab.setTelefono(Integer.parseInt(txtTelefono.getText().trim()));
+            colab.setEmail(txtEmail.getText().trim());
+            colab.setDireccion(txtDireccion.getText().trim());
+            colab.setFechaNac(dtpFechaNac.getDate());
+            colab.setFechIngreso(dtpFechaIngreso.getDate());
 
-                switch (this.getTitle()) {
-                    case "Agregar Colaborador" -> {
-                        if (listaColab.buscaCedula(colab.getCedula()) == null) {
+            Puestos sel = listaPuestos.buscaPuesto(String.valueOf(cmbPuesto.getSelectedItem()));
+            colab.setPuesto(sel);
 
-                            listaColab.insertarColab(colab);
-                            JOptionPane.showMessageDialog(this, "Cedula agregado con éxito");
-                            txtCedula.setText("");
-                            txtNombre.setText("");
-                            txtTelefono.setText("");
-                            txtCedula.requestFocus();
-                        } else {
-                            JOptionPane.showMessageDialog(this, "La cedula del puesto ya existe");
-                            txtCedula.requestFocus();
-                            txtCedula.setSelectionStart(0);
-                            txtCedula.setSelectionEnd(txtCedula.getText().length());
-                        }
-
-                    }
-
-                    case "Editar Colaborador" -> {
-                        listaColab.editarColab(pos, colab);
-                        JOptionPane.showMessageDialog(this, "Colaborador editado con éxito");
-                        this.dispose();
-
-                    }
+            if (this.getTitle().equals("Editar Colaborador")) {
+                // editar
+                listaColab.editarColab(pos, colab);
+                JOptionPane.showMessageDialog(this, "Colaborador editado con exito");
+                this.dispose();
+            } else {
+                // insertar
+                boolean ok = listaColab.insertarColab(colab);
+                if (ok) {
+                    JOptionPane.showMessageDialog(this, "Colaborador agregado con exito");
+                    this.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(this, "El id o la cedula ya existen");
+                    txtCedula.requestFocus();
+                    txtCedula.selectAll();
                 }
-
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(this, "Cedula y telefono deben ser numéricos");
             }
 
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Cedula y telefono deben ser numericos");
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
+    /**
+     * Inicializa combo y carga la ventana 
+     * 
+     * @param evt evento de ventana activada
+     */
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
- cmbPuesto.removeAllItems();
-        for (Puestos p: listaPuestos.getListaPuestos()) {
-            cmbPuesto.addItem(p.getNomPuesto());
+        cmbPuesto.removeAllItems();
+        if (listaPuestos != null && listaPuestos.getListaPuestos() != null) {
+            for (Puestos p : listaPuestos.getListaPuestos()) {
+                cmbPuesto.addItem(p.getNomPuesto());
+            }
         }
 
-        if (this.getTitle().equals("Editar Colaborador")) {
+        if (modoEdicion) {
             txtCedula.setText(String.valueOf(colab.getCedula()));
             txtCedula.setEnabled(false);
             txtNombre.setText(colab.getNombre());
@@ -347,15 +372,31 @@ public class DlgNuevoColaborador extends javax.swing.JDialog {
             txtEmail.setText(colab.getEmail());
             txtDireccion.setText(colab.getDireccion());
 
-            cmbPuesto.setSelectedItem(colab.getPuesto().getNomPuesto());
-            dtpFechaNac.setDate(colab.getFechaNac());
-            dtpFechaIngreso.setDate(colab.getFechIngreso());
+            if (colab.getPuesto() != null) {
+                cmbPuesto.setSelectedItem(colab.getPuesto().getNomPuesto());
+            } else if (cmbPuesto.getItemCount() > 0) {
+                cmbPuesto.setSelectedIndex(0);
+            }
 
-
+            if (colab.getFechaNac() != null) {
+                dtpFechaNac.setDate(colab.getFechaNac());
+            }
+            if (colab.getFechIngreso() != null) {
+                dtpFechaIngreso.setDate(colab.getFechIngreso());
+            }
+        } else {
+            txtCedula.setEnabled(true);
+            if (cmbPuesto.getItemCount() > 0) {
+                cmbPuesto.setSelectedIndex(0);
+            }
         }
-
     }//GEN-LAST:event_formWindowActivated
 
+    /**
+     * Cierra el dialogo sin aplicar cambios
+     *
+     * @param evt evento de boton cancelar
+     */
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
