@@ -2,6 +2,7 @@ package datos;
 
 import java.util.ArrayList;
 import logica.Colaborador;
+
 /**
  * Clase que gestiona el almacenamiento de colaboradores en una lista
  * Permite realizar operaciones CRUD sobre objetos de tipo Colaborador
@@ -120,5 +121,31 @@ public class AlmacenamientoColab {
             }
         }
         return null;
+    }
+
+    /**
+     * Devuelve el nombre del colaborador dado su id
+     * @param idColaborador id del colaborador
+     * @return nombre del colaborador o null si no existe
+     */
+    public String nombrePorId(int idColaborador) {
+        Colaborador c = buscarPorId(idColaborador);
+        if (c != null) {
+            return c.getNombre();
+        }
+        return null;
+    }
+    /**
+     * Devuelve la posicion dado su id
+     * @param idColaborador id del colaborador
+     * @return nombre del colaborador o null si no existe
+     */
+    public int posicionPorId(int idColaborador) {
+        for (int i = 0; i < arrayColab.size(); i++) {
+            if (arrayColab.get(i).getIdColaborador() == idColaborador) {
+                return i;
+            }
+        }
+        return -1;
     }
 }

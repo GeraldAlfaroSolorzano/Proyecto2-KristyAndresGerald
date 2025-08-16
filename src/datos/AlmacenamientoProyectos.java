@@ -105,4 +105,26 @@ public class AlmacenamientoProyectos {
     public ArrayList<Proyectos> mostrar() {
         return listaProyectos;
     }
+    
+    /**
+     * Devuelve el nombre del proyecto por id
+     * @param idProyecto id del proyecto
+     * @return nombre del proyecto o null si no existe
+     */
+    public String nombrePorId(int idProyecto) {
+        Proyectos p = buscar(idProyecto);
+        if (p != null) {
+            return p.getNomProyecto();
+        }
+        return null;
+    }
+    
+    public int posicionPorId(int idProyecto) {
+    for (int i = 0; i < listaProyectos.size(); i++) {
+        if (listaProyectos.get(i).getIdProyecto() == idProyecto) {
+            return i;
+        }
+    }
+    return -1;
+}
 }

@@ -201,4 +201,13 @@ public class Proyectos {
         this.porcAvance = suma / tareasDelProyecto.size();
         return this.porcAvance;
     }
+    
+    /**
+     * Representacion en texto del proyecto
+     * @return String con informacion del proyecto
+     */
+    @Override
+    public String toString() {
+        return idProyecto + " - " + nomProyecto;
+    }
 }

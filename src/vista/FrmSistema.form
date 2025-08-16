@@ -134,7 +134,7 @@
                           <EmptySpace min="-2" pref="106" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
                               <Component id="btnPuestos" min="-2" pref="196" max="-2" attributes="0"/>
-                              <Component id="btnAsignarPluses" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnGestionTareas" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                       </Group>
@@ -170,7 +170,7 @@
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="btnAsignarPluses" alignment="3" min="-2" pref="93" max="-2" attributes="0"/>
+                      <Component id="btnGestionTareas" alignment="3" min="-2" pref="93" max="-2" attributes="0"/>
                       <Component id="btnProyectos" alignment="3" min="-2" pref="91" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="73" max="-2" attributes="0"/>
@@ -245,7 +245,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnProyectosActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="btnAsignarPluses">
+        <Component class="javax.swing.JButton" name="btnGestionTareas">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="14" style="0"/>
@@ -261,7 +261,7 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAsignarPlusesActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGestionTareasActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnPlanillas">

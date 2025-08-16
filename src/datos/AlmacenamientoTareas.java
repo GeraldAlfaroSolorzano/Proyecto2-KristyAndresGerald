@@ -24,6 +24,15 @@ public class AlmacenamientoTareas {
         this.listaTareas = new ArrayList<TareasDeProyecto>();
     }
 
+    public ArrayList<TareasDeProyecto> getListaTareas() {
+        return listaTareas;
+    }
+
+    public void setListaTareas(ArrayList<TareasDeProyecto> listaTareas) {
+        this.listaTareas = listaTareas;
+    }
+
+    
     /**
      * Inserta una nueva tarea validando que el idTarea sea unico
      * @param tarea tarea a insertar
