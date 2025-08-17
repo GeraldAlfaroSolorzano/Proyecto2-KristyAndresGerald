@@ -45,7 +45,7 @@ public class FrmSistema extends javax.swing.JFrame {
         btnProyectos = new javax.swing.JButton();
         btnGestionTareas = new javax.swing.JButton();
         btnPlanillas = new javax.swing.JButton();
-        btnPlanillas1 = new javax.swing.JButton();
+        btnEstadoTarea = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
@@ -111,10 +111,15 @@ public class FrmSistema extends javax.swing.JFrame {
         btnPlanillas.setText("Avance  y Estado de Proyectos");
         btnPlanillas.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
 
-        btnPlanillas1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnPlanillas1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/avance de tareas.png"))); // NOI18N
-        btnPlanillas1.setText("Avance  y Estado de Tareas");
-        btnPlanillas1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
+        btnEstadoTarea.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnEstadoTarea.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/avance de tareas.png"))); // NOI18N
+        btnEstadoTarea.setText("Avance  y Estado de Tareas");
+        btnEstadoTarea.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
+        btnEstadoTarea.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEstadoTareaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -134,7 +139,7 @@ public class FrmSistema extends javax.swing.JFrame {
                         .addGap(18, 18, 18)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnPlanillas1, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
+                        .addComponent(btnEstadoTarea, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
                         .addGap(54, 54, 54))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -156,7 +161,7 @@ public class FrmSistema extends javax.swing.JFrame {
                 .addGap(73, 73, 73)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnPlanillas, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnPlanillas1, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnEstadoTarea, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(102, Short.MAX_VALUE))
         );
 
@@ -248,12 +253,10 @@ public class FrmSistema extends javax.swing.JFrame {
     }//GEN-LAST:event_btnColabsActionPerformed
 
     private void btnProyectosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProyectosActionPerformed
-        DlgGestionProyectos winProyectos = new DlgGestionProyectos(this, false, listaProyectos);
+        DlgGestionProyectos winProyectos = new DlgGestionProyectos(this, false, listaProyectos, listaTareas);
         winProyectos.setLocationRelativeTo(null);
         winProyectos.setTitle("Gestión de Proyectos");
         winProyectos.setVisible(true);
-
-        this.listaProyectos = winProyectos.listaProyectos; 
     }//GEN-LAST:event_btnProyectosActionPerformed
 
     private void btnGestionTareasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionTareasActionPerformed
@@ -264,6 +267,13 @@ public class FrmSistema extends javax.swing.JFrame {
 
         this.listaTareas = winTareas.listaTareas;
     }//GEN-LAST:event_btnGestionTareasActionPerformed
+
+    private void btnEstadoTareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEstadoTareaActionPerformed
+        DlgAvanceTareas winAvance = new DlgAvanceTareas(this, false, listaTareas, listaColab, listaProyectos);
+        winAvance.setTitle("Avance y Estado de Tareas");
+        winAvance.setLocationRelativeTo(this);
+        winAvance.setVisible(true);
+    }//GEN-LAST:event_btnEstadoTareaActionPerformed
 
     
     @Override
@@ -314,9 +324,9 @@ public class FrmSistema extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnColabs;
+    private javax.swing.JButton btnEstadoTarea;
     private javax.swing.JButton btnGestionTareas;
     private javax.swing.JButton btnPlanillas;
-    private javax.swing.JButton btnPlanillas1;
     private javax.swing.JButton btnProyectos;
     private javax.swing.JButton btnPuestos;
     private javax.swing.JMenu jMenu1;

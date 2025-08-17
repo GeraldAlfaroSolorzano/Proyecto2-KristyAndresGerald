@@ -1,10 +1,10 @@
 package vista;
 
 import datos.AlmacenamientoProyectos;
+import datos.AlmacenamientoTareas;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import logica.Proyectos;
-import vista.DlgNuevoProyecto;
 /**
  * Dialogo de gestion de proyectos Permite visualizar, editar y administrar
  * los datos de los proyectos
@@ -14,29 +14,31 @@ import vista.DlgNuevoProyecto;
 public class DlgGestionProyectos extends javax.swing.JDialog {
 
     protected AlmacenamientoProyectos listaProyectos;
+    protected AlmacenamientoTareas listaTareas;
     protected DefaultTableModel tblModel;
 
     /**
-     * Constructor del dialogo sin datos iniciales
-     * @param parent ventana principal
-     * @param modal indica si el dialogo es modal
+     * Constructor por defecto 
+     * @param parent
+     * @param modal
      */
     public DlgGestionProyectos(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.listaProyectos = new AlmacenamientoProyectos();
+        this.listaTareas = new AlmacenamientoTareas();
     }
 
     /**
-     * Constructor del dialogo con lista de proyectos
-     * @param parent ventana principal
-     * @param modal indica si el dialogo es modal
-     * @param listaProyectos lista de proyectos a gestionar
+     * Constructor completo (usado cuando quieres compartir las mismas listas).
      */
-    public DlgGestionProyectos(java.awt.Frame parent, boolean modal, AlmacenamientoProyectos listaProyectos) {
+    public DlgGestionProyectos(java.awt.Frame parent, boolean modal,
+            AlmacenamientoProyectos listaProyectos,
+            AlmacenamientoTareas listaTareas) {
         super(parent, modal);
         initComponents();
         this.listaProyectos = listaProyectos;
+        this.listaTareas = listaTareas;
     }
 
     /** 
@@ -68,8 +70,8 @@ public class DlgGestionProyectos extends javax.swing.JDialog {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        lblBuscar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblBuscar.setText("Buscar:");
+        lblBuscar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         txtBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -77,27 +79,27 @@ public class DlgGestionProyectos extends javax.swing.JDialog {
             }
         });
 
-        btnInsertar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnInsertar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/insert.png"))); // NOI18N
         btnInsertar.setText("Insertar");
+        btnInsertar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnInsertar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnInsertarActionPerformed(evt);
             }
         });
 
-        btnEditar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/editar.png"))); // NOI18N
         btnEditar.setText("Editar");
+        btnEditar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditarActionPerformed(evt);
             }
         });
 
-        btnEliminar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/eliminar.png"))); // NOI18N
         btnEliminar.setText("Eliminar");
+        btnEliminar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEliminarActionPerformed(evt);
@@ -144,8 +146,8 @@ public class DlgGestionProyectos extends javax.swing.JDialog {
         ));
         jScrollPane1.setViewportView(tblProyectos);
 
-        lblCant.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblCant.setText("Cantidad de Proyectos");
+        lblCant.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         txtCant.setEditable(false);
 
@@ -158,14 +160,15 @@ public class DlgGestionProyectos extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblCant)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtCant, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 733, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(lblCant)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtCant, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 541, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 733, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -256,26 +259,61 @@ public class DlgGestionProyectos extends javax.swing.JDialog {
      */
 
     private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
-        String titulo[] = {"ID", "Nombre", "Fecha Inicio", "Fecha Fin", "Duracion", "Estado", "Avance"};
+        String[] titulo = {"ID", "Nombre", "Fecha Inicio", "Fecha Fin", "Duracion", "Estado", "Avance"};
         tblModel = new DefaultTableModel(null, titulo);
 
-        String filtro = txtBuscar.getText().toLowerCase();
+        String filtro = txtBuscar.getText();
+        if (filtro == null) {
+            filtro = "";
+        }
+        filtro = filtro.toLowerCase();
+
+        if (listaProyectos == null) {
+            tblProyectos.setModel(tblModel);
+            txtCant.setText("0");
+            return;
+        }
 
         for (Proyectos proyecto : listaProyectos.mostrar()) {
-            boolean coincide =
-                   String.valueOf(proyecto.getIdProyecto()).contains(filtro)
-                || proyecto.getNomProyecto().toLowerCase().contains(filtro)
-                || (proyecto.getEstado() != null && proyecto.getEstado().toLowerCase().contains(filtro));
+            boolean coincide = false;
+
+            String idComoTexto = String.valueOf(proyecto.getIdProyecto());
+            if (idComoTexto.toLowerCase().contains(filtro)) {
+                coincide = true;
+            }
+            if (!coincide) {
+                String nombreProyecto = proyecto.getNomProyecto();
+                if (nombreProyecto != null && nombreProyecto.toLowerCase().contains(filtro)) {
+                    coincide = true;
+                }
+            }
+            if (!coincide) {
+                String estadoProyecto = proyecto.getEstado();
+                if (estadoProyecto != null && estadoProyecto.toLowerCase().contains(filtro)) {
+                    coincide = true;
+                }
+            }
 
             if (coincide) {
-                Object row[] = {
+                int avanceMostrado = 0;
+                if (listaTareas != null) {
+                    // Calcula el avance del proyecto a partir de sus tareas
+                    avanceMostrado = proyecto.calcAvance(
+                            listaTareas.listarPorProyecto(proyecto.getIdProyecto())
+                    );
+                } else {
+                    // Si no tienes listaTareas, muestra el valor almacenado en el proyecto
+                    avanceMostrado = proyecto.getPorcAvance();
+                }
+
+                Object[] row = {
                     proyecto.getIdProyecto(),
                     proyecto.getNomProyecto(),
                     proyecto.getFechInicio(),
                     proyecto.getFechFin(),
                     proyecto.getDuracionDias(),
                     proyecto.getEstado(),
-                    proyecto.getPorcAvance()
+                    avanceMostrado
                 };
                 tblModel.addRow(row);
             }
@@ -290,18 +328,35 @@ public class DlgGestionProyectos extends javax.swing.JDialog {
      * Carga todos los proyectos en la tabla
      */
     private void muestraTabla() {
-        String titulo[] = {"ID", "Nombre", "Fecha Inicio", "Fecha Fin", "Duracion", "Estado", "Avance"};
+        String[] titulo = {"ID", "Nombre", "Fecha Inicio", "Fecha Fin", "Duracion", "Estado", "Avance"};
         tblModel = new DefaultTableModel(null, titulo);
 
-        for (Proyectos p : listaProyectos.mostrar()) {
-            Object row[] = {
-                p.getIdProyecto(),
-                p.getNomProyecto(),
-                p.getFechInicio(),
-                p.getFechFin(),
-                p.getDuracionDias(),
-                p.getEstado(),
-                p.getPorcAvance()
+        if (listaProyectos == null) {
+            tblProyectos.setModel(tblModel);
+            txtCant.setText("0");
+            return;
+        }
+
+        for (Proyectos proyecto : listaProyectos.mostrar()) {
+            int avanceMostrado = 0;
+            if (listaTareas != null) {
+                // Calcula el avance del proyecto a partir de sus tareas
+                avanceMostrado = proyecto.calcAvance(
+                        listaTareas.listarPorProyecto(proyecto.getIdProyecto())
+                );
+            } else {
+                // Si no tienes listaTareas, muestra el valor almacenado en el proyecto
+                avanceMostrado = proyecto.getPorcAvance();
+            }
+
+            Object[] row = {
+                proyecto.getIdProyecto(),
+                proyecto.getNomProyecto(),
+                proyecto.getFechInicio(),
+                proyecto.getFechFin(),
+                proyecto.getDuracionDias(),
+                proyecto.getEstado(),
+                avanceMostrado
             };
             tblModel.addRow(row);
         }
@@ -309,7 +364,8 @@ public class DlgGestionProyectos extends javax.swing.JDialog {
         tblProyectos.setModel(tblModel);
         txtCant.setText(String.valueOf(tblProyectos.getRowCount()));
     }
-     
+
+    
     /**
      * Metodo principal que inicia el dialogo de gestion de colaboradores
      * @param args argumentos de linea de comandos

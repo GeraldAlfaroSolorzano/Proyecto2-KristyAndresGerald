@@ -342,18 +342,23 @@ public class DlgGestionTareas extends javax.swing.JDialog {
      * 
      */
     private void muestraTabla() {
-        String titulo[] = {"ID", "Nombre", "Proyecto", "Colaborador",
-            "Inicio", "Fin", "Duracion", "Estado", "Avance %"};
+        String[] titulo = {
+            "ID", "Nombre", "Proyecto", "Colaborador",
+            "Inicio", "Fin", "Duracion", "Estado", "Avance %"
+        };
 
-        tblModel = new DefaultTableModel(null, titulo);
+        DefaultTableModel model = new DefaultTableModel(null, titulo);
 
-        if (listaTareas == null) {
-            tblTareas.setModel(tblModel);
+        // valida dependencias
+        if (listaTareas == null || listaProyectos == null || listaColab == null) {
+            tblTareas.setModel(model);
             txtCant.setText("0");
             return;
         }
 
+        // recorre y arma filas
         for (TareasDeProyecto tarea : listaTareas.mostrar()) {
+
             String nombreProyecto = listaProyectos.nombrePorId(tarea.getIdProyecto());
             if (nombreProyecto == null) {
                 nombreProyecto = "";
@@ -369,7 +374,7 @@ public class DlgGestionTareas extends javax.swing.JDialog {
                 estadoMostrar = tarea.getEstado().name();
             }
 
-            Object row[] = {
+            Object[] row = {
                 tarea.getIdTarea(),
                 tarea.getNomTarea(),
                 nombreProyecto,
@@ -380,12 +385,12 @@ public class DlgGestionTareas extends javax.swing.JDialog {
                 estadoMostrar,
                 tarea.getPorcAvance()
             };
-
-            tblModel.addRow(row);
+            model.addRow(row);
         }
 
-        tblTareas.setModel(tblModel);
-        txtCant.setText(String.valueOf(tblTareas.getRowCount()));
+        // aplica al JTable y contador
+        tblTareas.setModel(model);
+        txtCant.setText(Integer.toString(model.getRowCount()));
     }
 
     /**
