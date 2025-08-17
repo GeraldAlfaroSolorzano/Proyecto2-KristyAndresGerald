@@ -11,7 +11,7 @@ import logica.Colaborador;
  * los datos de los colaboradores registrados 
  * Utiliza instancias de AlmacenamientoColab y AlmacenamientoPuestos para operar sobre los datos
  *
- * @author Andres
+ * @author Andres, Gerald, Kristy
  */
 public class DlgGestionColaboradores extends javax.swing.JDialog {
 

@@ -3,47 +3,48 @@ package vista;
 import datos.AlmacenamientoColab;
 import datos.AlmacenamientoProyectos;
 import datos.AlmacenamientoTareas;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import logica.EstadoTarea;
 import logica.Proyectos;
 import logica.TareasDeProyecto;
 
 /**
- * Dialogo de gestion de tareas donde se logra ver el avance de las tareas
+ * Dialogo de gestion de proyectos donde se logra ver el avance de las proyectos
  * por medio un progressbar que muesta inicialmente el promedio de todas la tareas
- * que se estan haciendo 
+ * que se estan haciendo
  *
  * @author Andres, Gerald, Kristy
  */
-public class DlgAvanceTareas extends javax.swing.JDialog {
+public class DlgAvanceProyecto extends javax.swing.JDialog {
 
     protected AlmacenamientoTareas listaTareas;
     protected AlmacenamientoColab listaColab;
     protected AlmacenamientoProyectos listaProyectos;
 
     /**
-     * Constructor basico Inicializa componentes y configura la barra de
-     * progreso
+     * Constructor basico
      * @param parent ventana padre
-     * @param modal indica si es modal
+     * @param modal modal
      */
-    public DlgAvanceTareas(java.awt.Frame parent, boolean modal) {
+    public DlgAvanceProyecto(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         configurarBarra();
     }
 
     /**
-     * Constructor con dependencias inicializa componentes inyecta listas y
-     * configura la barra de progreso
+     * Constructor con dependencias
      * @param parent ventana padre
-     * @param modal indica si es modal
-     * @param listaTareas fuente de datos de tareas
-     * @param listaColab fuente de datos de colaboradores
-     * @param listaProyectos fuente de datos de proyectos
+     * @param modal modal
+     * @param listaTareas fuente de tareas
+     * @param listaColab fuente de colaboradores
+     * @param listaProyectos fuente de proyectos
      */
-    public DlgAvanceTareas(java.awt.Frame parent, boolean modal, AlmacenamientoTareas listaTareas, AlmacenamientoColab listaColab, AlmacenamientoProyectos listaProyectos) {
+    public DlgAvanceProyecto(java.awt.Frame parent, boolean modal,
+            AlmacenamientoTareas listaTareas,
+            AlmacenamientoColab listaColab,
+            AlmacenamientoProyectos listaProyectos) {
         super(parent, modal);
         initComponents();
         this.listaTareas = listaTareas;
@@ -65,10 +66,8 @@ public class DlgAvanceTareas extends javax.swing.JDialog {
 
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblTareas = new javax.swing.JTable();
+        tblProyectos = new javax.swing.JTable();
         lblBuscar = new javax.swing.JLabel();
-        lblProyecto = new javax.swing.JLabel();
-        cmbProyecto = new javax.swing.JComboBox();
         txtBuscar = new javax.swing.JTextField();
         barAvance = new javax.swing.JProgressBar();
         jLabel1 = new javax.swing.JLabel();
@@ -84,7 +83,7 @@ public class DlgAvanceTareas extends javax.swing.JDialog {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        tblTareas.setModel(new javax.swing.table.DefaultTableModel(
+        tblProyectos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -92,17 +91,9 @@ public class DlgAvanceTareas extends javax.swing.JDialog {
 
             }
         ));
-        jScrollPane1.setViewportView(tblTareas);
+        jScrollPane1.setViewportView(tblProyectos);
 
         lblBuscar.setText("Buscar");
-
-        lblProyecto.setText("Proyecto");
-
-        cmbProyecto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmbProyectoActionPerformed(evt);
-            }
-        });
 
         txtBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -117,43 +108,35 @@ public class DlgAvanceTareas extends javax.swing.JDialog {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(36, 36, 36)
+                .addComponent(lblBuscar)
+                .addGap(18, 18, 18)
+                .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(barAvance, javax.swing.GroupLayout.PREFERRED_SIZE, 423, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(58, 58, 58))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(227, 227, 227))
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblProyecto)
-                            .addComponent(lblBuscar))
-                        .addGap(25, 25, 25)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(cmbProyecto, 0, 192, Short.MAX_VALUE)
-                            .addComponent(txtBuscar))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(226, 226, 226))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(barAvance, javax.swing.GroupLayout.PREFERRED_SIZE, 423, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(68, 68, 68))))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)))
+                .addComponent(jScrollPane1)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(jLabel1)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblBuscar)
-                            .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblProyecto)
-                            .addComponent(cmbProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
+                        .addGap(15, 15, 15)
                         .addComponent(barAvance, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -183,9 +166,9 @@ public class DlgAvanceTareas extends javax.swing.JDialog {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(7, 7, 7)
+                .addGap(13, 13, 13)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblCant)
                     .addComponent(txtCant, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -201,13 +184,8 @@ public class DlgAvanceTareas extends javax.swing.JDialog {
      * @param evt evento de activacion de ventana
      */
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-        cargarCombos();
         muestraTabla();
     }//GEN-LAST:event_formWindowActivated
-
-    private void cmbProyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbProyectoActionPerformed
-        muestraTabla();
-    }//GEN-LAST:event_cmbProyectoActionPerformed
 
     private void txtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarActionPerformed
         muestraTabla();
@@ -233,160 +211,115 @@ public class DlgAvanceTareas extends javax.swing.JDialog {
         int p = porcentaje;
         if (p < 0) {
             p = 0;
-        }
-        if (p > 100) {
+        } else if (p > 100) {
             p = 100;
         }
         barAvance.setValue(p);
         barAvance.setString(p + " %");
     }
 
+    /**
+     * Mapea el % de avance a un estado escalonado usando EstadoTarea.
+     */
+    private String estadoDesdePorcentaje(int avance) {
+        if (avance <= 0) {
+            return EstadoTarea.CREADA.name();
+        } else if (avance <= 25) {
+            return EstadoTarea.INICIADA.name();
+        } else if (avance <= 50) {
+            return EstadoTarea.EN_EJECUCION.name();
+        } else if (avance < 100) {
+            return EstadoTarea.REVISION.name();
+        } else {
+            return EstadoTarea.FINALIZADA.name();
+        }
+    }
     
     /**
-     * Construye el modelo de la tabla 
+     * Construye el modelo de la tabla aplicando filtros de proyecto colaborador
+     * estado y texto calcula el promedio de avance y lo refleja en la barra
+     * Cuando las listas no estan listas muestra una tabla vacia
      */
     private void muestraTabla() {
         String[] columnTitles = {
-            "ID", "Nombre", "Proyecto", "Colaborador",
-            "Inicio", "Fin", "Duracion", "Estado", "Avance %"
+            "ID", "Nombre", "Inicio", "Fin", "Duración", "Estado", "Avance %"
         };
 
         DefaultTableModel tableModel = new DefaultTableModel(null, columnTitles);
 
-        // Validacion de listas
-        if (listaTareas == null || listaProyectos == null || listaColab == null) {
-            tblTareas.setModel(tableModel);
+        if (listaProyectos == null || listaTareas == null) {
+            tblProyectos.setModel(tableModel);
             txtCant.setText("0");
             actualizarBarraProyecto(0);
             JOptionPane.showMessageDialog(this, "Listas no inicializadas");
             return;
         }
 
-        // Filtro
-        Integer filtroIdProyecto = null;
-        Object valorProyectoSeleccionado = cmbProyecto.getSelectedItem();
-        if (valorProyectoSeleccionado instanceof Proyectos) {
-            Proyectos proyectoSeleccionado = (Proyectos) valorProyectoSeleccionado;
-            filtroIdProyecto = proyectoSeleccionado.getIdProyecto();
-        }
-
-        // Filtro
         String textoFiltro = txtBuscar.getText();
         if (textoFiltro == null) {
             textoFiltro = "";
         }
         textoFiltro = textoFiltro.toLowerCase();
 
-        int sumaAvance = 0;
-        int cantidadTareas = 0;
+        int sumaAvances = 0;
+        int contFiltrados = 0;
+        Integer avanceUnico = null;
 
-        for (TareasDeProyecto tarea : listaTareas.mostrar()) {
-
-            // Filtro por proyectyo
-            if (filtroIdProyecto != null && tarea.getIdProyecto() != filtroIdProyecto) {
+        for (Proyectos p : listaProyectos.mostrar()) {
+            if (p == null) {
                 continue;
             }
 
-            // Nombres relacionados
-            String nombreProyecto = listaProyectos.nombrePorId(tarea.getIdProyecto());
-            if (nombreProyecto == null) {
-                nombreProyecto = "";
+            // Filtra por nombre de proyecto (sin operador ternario)
+            String nombre = p.getNomProyecto();
+            String nombreLower = "";
+            if (nombre != null) {
+                nombreLower = nombre.toLowerCase();
             }
-
-            String nombreColaborador = listaColab.nombrePorId(tarea.getIdColaborador());
-            if (nombreColaborador == null) {
-                nombreColaborador = "";
-            }
-
-            // Filtro de texto
-            boolean coincideConFiltro = false;
-
-            String idComoTexto = String.valueOf(tarea.getIdTarea());
-            if (idComoTexto.contains(textoFiltro)) {
-                coincideConFiltro = true;
-            }
-            if (!coincideConFiltro) {
-                String nombreTarea = tarea.getNomTarea();
-                if (nombreTarea != null) {
-                    String nombreTareaMinusculas = nombreTarea.toLowerCase();
-                    if (nombreTareaMinusculas.contains(textoFiltro)) {
-                        coincideConFiltro = true;
-                    }
-                }
-            }
-            if (!coincideConFiltro) {
-                String nombreProyectoMinusculas = nombreProyecto.toLowerCase();
-                if (nombreProyectoMinusculas.contains(textoFiltro)) {
-                    coincideConFiltro = true;
-                }
-            }
-            if (!coincideConFiltro) {
-                String nombreColaboradorMinusculas = nombreColaborador.toLowerCase();
-                if (nombreColaboradorMinusculas.contains(textoFiltro)) {
-                    coincideConFiltro = true;
-                }
-            }
-            if (!coincideConFiltro) {
+            if (!nombreLower.contains(textoFiltro)) {
                 continue;
             }
 
-            // Estado en texto
-            String estadoComoTexto = "";
-            if (tarea.getEstado() != null) {
-                estadoComoTexto = tarea.getEstado().name();
+            // Calcula avance del proyecto desde sus tareas
+            java.util.ArrayList<TareasDeProyecto> tareas = listaTareas.listarPorProyecto(p.getIdProyecto());
+            int avance = p.calcAvance(tareas);
+            if (avance < 0) {
+                avance = 0;
+            } else if (avance > 100) {
+                avance = 100;
             }
+
+            String estado = estadoDesdePorcentaje(avance);
 
             Object[] fila = new Object[]{
-                tarea.getIdTarea(),
-                tarea.getNomTarea(),
-                nombreProyecto,
-                nombreColaborador,
-                tarea.getFechInicio(),
-                tarea.getFechFin(),
-                tarea.getDuracion(),
-                estadoComoTexto,
-                tarea.getPorcAvance()
+                p.getIdProyecto(),
+                p.getNomProyecto(),
+                p.getFechInicio(),
+                p.getFechFin(),
+                p.getDuracionDias(),
+                estado,
+                avance
             };
-
             tableModel.addRow(fila);
-            sumaAvance += tarea.getPorcAvance();
-            cantidadTareas += 1;
+
+            sumaAvances += avance;
+            contFiltrados++;
+            avanceUnico = avance;
         }
 
-        tblTareas.setModel(tableModel);
+        tblProyectos.setModel(tableModel);
         txtCant.setText(Integer.toString(tableModel.getRowCount()));
 
-        // Promedio para la barra
-        int promedioAvance = 0;
-        if (cantidadTareas > 0) {
-            promedioAvance = Math.round((float) sumaAvance / (float) cantidadTareas);
+        // Actualiza barra
+        if (contFiltrados == 1 && avanceUnico != null) {
+            actualizarBarraProyecto(avanceUnico);
+        } else if (contFiltrados > 1) {
+            int promedio = Math.round((float) sumaAvances / (float) contFiltrados);
+            actualizarBarraProyecto(promedio);
+        } else {
+            actualizarBarraProyecto(0);
         }
-
-        actualizarBarraProyecto(promedioAvance);
     }
-
-
-    /**
-     * Carga opciones en el combo de proyecto 
-     */
-    private void cargarCombos() {
-        // Solo PROYECTOS
-        DefaultComboBoxModel<Proyectos> modeloProy = new DefaultComboBoxModel<>();
-        if (listaProyectos != null) {
-            java.util.ArrayList<Proyectos> proys = listaProyectos.mostrar();
-            if (proys != null) {
-                for (int i = 0; i < proys.size(); i++) {
-                    Proyectos p = proys.get(i);
-                    if (p != null) {
-                        modeloProy.addElement(p);
-                    }
-                }
-            }
-        }
-        cmbProyecto.setModel(modeloProy);
-        cmbProyecto.setSelectedIndex(-1); 
-    }
-    
 
     /**
      * Metodo principal que inicia el dialogo de gestion de colaboradores
@@ -407,14 +340,22 @@ public class DlgAvanceTareas extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DlgAvanceTareas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DlgAvanceProyecto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DlgAvanceTareas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DlgAvanceProyecto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DlgAvanceTareas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DlgAvanceProyecto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DlgAvanceTareas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DlgAvanceProyecto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -427,7 +368,7 @@ public class DlgAvanceTareas extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                DlgAvanceTareas dialog = new DlgAvanceTareas(new javax.swing.JFrame(), true);
+                DlgAvanceProyecto dialog = new DlgAvanceProyecto(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -441,14 +382,12 @@ public class DlgAvanceTareas extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JProgressBar barAvance;
-    private javax.swing.JComboBox cmbProyecto;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblBuscar;
     private javax.swing.JLabel lblCant;
-    private javax.swing.JLabel lblProyecto;
-    private javax.swing.JTable tblTareas;
+    private javax.swing.JTable tblProyectos;
     private javax.swing.JTextField txtBuscar;
     private javax.swing.JTextField txtCant;
     // End of variables declaration//GEN-END:variables

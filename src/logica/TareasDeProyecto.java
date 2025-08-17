@@ -10,7 +10,7 @@ import java.time.LocalDate;
 
 /**
  *
- * @author galfa
+ * @author Andres, Gerald, Kristy
  */
 public class TareasDeProyecto {
     /** 

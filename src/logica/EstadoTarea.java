@@ -6,7 +6,7 @@ package logica;
 
 /**
  *
- * @author galfa
+ * @author Andres, Gerald, Kristy
  */
 /**
  * Enum que tiene los valores designados fijos

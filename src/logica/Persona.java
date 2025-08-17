@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 /**
  *
- * @author galfa
+ * @author Andres, Gerald, Kristy
  */
 import java.time.LocalDate;
 

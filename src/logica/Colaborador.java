@@ -6,7 +6,7 @@ import java.time.LocalDate;
  * Clase que representa un colaborador, que hereda de la clase Persona
  * y agrega atributos propios como id, puesto y especialidad
  *
- * @author Andres
+ * @author Andres, Gerald, Kristy
  */
 public class Colaborador extends Persona {
 

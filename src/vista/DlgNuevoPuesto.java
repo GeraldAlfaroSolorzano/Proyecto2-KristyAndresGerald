@@ -7,7 +7,7 @@ import logica.Puestos;
 /**
  * Dialogo para crear o editar un puesto
  * Permite ingresar un nuevo registro o modificar uno existente
- * @author galfa
+ * @author Andres, Gerald, Kristy
  */
 public class DlgNuevoPuesto extends javax.swing.JDialog {
 

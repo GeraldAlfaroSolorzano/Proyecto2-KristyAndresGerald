@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Representa un proyecto con sus datos y porcentaje de avance
  * Calcula avance a partir de sus tareas
- * @author krist
+ * @author Andres, Gerald, Kristy
  */
 public class Proyectos {
 

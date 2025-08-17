@@ -14,7 +14,7 @@ import logica.TareasDeProyecto;
 
 /**
  * Dialogo para crear y editar tareas
- * @author galfa
+ * @author Andres, Gerald, Kristy
  */
 public class DlgNuevaTarea extends javax.swing.JDialog {
     

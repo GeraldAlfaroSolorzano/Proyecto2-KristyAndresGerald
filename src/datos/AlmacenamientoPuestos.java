@@ -5,7 +5,7 @@ import logica.Puestos;
 
 /**
  *
- * @author galfa
+ * @author Andres, Gerald, Kristy
  */
 
 /**

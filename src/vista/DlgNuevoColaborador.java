@@ -9,7 +9,7 @@ import logica.Puestos;
 /**
  * Dialogo para crear y editar colaboradores
  * 
- * @author Andres
+ * @author Andres, Gerald, Kristy
  */
 public class DlgNuevoColaborador extends javax.swing.JDialog {
     

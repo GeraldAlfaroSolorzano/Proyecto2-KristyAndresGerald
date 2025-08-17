@@ -9,7 +9,7 @@ import logica.Proyectos;
 
 /**
  *
- * @author krist
+ * @author Andres, Gerald, Kristy
  */
 
 public class DlgNuevoProyecto extends javax.swing.JDialog {

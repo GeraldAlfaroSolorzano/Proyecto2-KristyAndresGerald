@@ -8,7 +8,7 @@ import logica.Proyectos;
 /**
  * Almacena proyectos en memoria usando ArrayList
  * expone operaciones CRUD 
- * @author krist
+ * @author Andres, Gerald, Kristy
  */
 public class AlmacenamientoProyectos {
 

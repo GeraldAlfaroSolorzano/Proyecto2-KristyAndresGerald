@@ -13,7 +13,7 @@ import java.awt.Toolkit;
 
 /**
  *
- * @author galfa
+ * @author Andres, Gerald, Kristy
  */
 public class FrmSistema extends javax.swing.JFrame {
 
@@ -44,17 +44,18 @@ public class FrmSistema extends javax.swing.JFrame {
         btnColabs = new javax.swing.JButton();
         btnProyectos = new javax.swing.JButton();
         btnGestionTareas = new javax.swing.JButton();
-        btnPlanillas = new javax.swing.JButton();
+        btnEstadoProyecto = new javax.swing.JButton();
         btnEstadoTarea = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuItem6 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
+        mnModulos = new javax.swing.JMenu();
+        itemPuestos = new javax.swing.JMenuItem();
+        itemColab = new javax.swing.JMenuItem();
+        itemGestionTareas = new javax.swing.JMenuItem();
+        itemProyectos = new javax.swing.JMenuItem();
+        itemAvanceTareas = new javax.swing.JMenuItem();
+        itemEstadoProyectos = new javax.swing.JMenuItem();
+        mnAcercade = new javax.swing.JMenu();
+        itemAcerca = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sistema de Gestión de Planillas");
@@ -106,10 +107,15 @@ public class FrmSistema extends javax.swing.JFrame {
             }
         });
 
-        btnPlanillas.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnPlanillas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/avance y estado prpyecto.png"))); // NOI18N
-        btnPlanillas.setText("Avance  y Estado de Proyectos");
-        btnPlanillas.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
+        btnEstadoProyecto.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnEstadoProyecto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/avance y estado prpyecto.png"))); // NOI18N
+        btnEstadoProyecto.setText("Avance  y Estado de Proyectos");
+        btnEstadoProyecto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
+        btnEstadoProyecto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEstadoProyectoActionPerformed(evt);
+            }
+        });
 
         btnEstadoTarea.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnEstadoTarea.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/avance de tareas.png"))); // NOI18N
@@ -135,7 +141,7 @@ public class FrmSistema extends javax.swing.JFrame {
                         .addGap(29, 29, 29))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(btnPlanillas)
+                        .addComponent(btnEstadoProyecto)
                         .addGap(18, 18, 18)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -160,52 +166,93 @@ public class FrmSistema extends javax.swing.JFrame {
                     .addComponent(btnProyectos, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(73, 73, 73)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnPlanillas, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEstadoProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEstadoTarea, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(102, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
-        jMenu1.setText("Archivo");
+        mnModulos.setText("Modulos");
 
-        jMenuItem6.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.ALT_DOWN_MASK));
-        jMenuItem6.setText("Salir");
-        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+        itemPuestos.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.ALT_DOWN_MASK));
+        itemPuestos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Gestion de puestos.png"))); // NOI18N
+        itemPuestos.setText("Gestion de Puestos");
+        itemPuestos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem6ActionPerformed(evt);
+                itemPuestosActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem6);
+        mnModulos.add(itemPuestos);
 
-        jMenuBar1.add(jMenu1);
-
-        jMenu2.setText("Módulos");
-
-        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.ALT_DOWN_MASK));
-        jMenuItem1.setText("Gestión de Puestos");
-        jMenu2.add(jMenuItem1);
-
-        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.ALT_DOWN_MASK));
-        jMenuItem2.setText("Gestión de Colaboradores");
-        jMenu2.add(jMenuItem2);
-
-        jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.ALT_DOWN_MASK));
-        jMenuItem3.setText("Gestión Pluses");
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+        itemColab.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.ALT_DOWN_MASK));
+        itemColab.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/gestion de colaboradores.png"))); // NOI18N
+        itemColab.setText("Gestion de Colaboradores");
+        itemColab.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem3ActionPerformed(evt);
+                itemColabActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem3);
+        mnModulos.add(itemColab);
 
-        jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.ALT_DOWN_MASK));
-        jMenuItem4.setText("Asignar Pluses");
-        jMenu2.add(jMenuItem4);
+        itemGestionTareas.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.ALT_DOWN_MASK));
+        itemGestionTareas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/gestion de tareas.png"))); // NOI18N
+        itemGestionTareas.setText("Gestion de Tareas");
+        itemGestionTareas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemGestionTareasActionPerformed(evt);
+            }
+        });
+        mnModulos.add(itemGestionTareas);
 
-        jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.ALT_DOWN_MASK));
-        jMenuItem5.setText("Planillas");
-        jMenu2.add(jMenuItem5);
+        itemProyectos.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.ALT_DOWN_MASK));
+        itemProyectos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Gestion de proyectos.png"))); // NOI18N
+        itemProyectos.setText("Gestion de Proyectos");
+        itemProyectos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemProyectosActionPerformed(evt);
+            }
+        });
+        mnModulos.add(itemProyectos);
 
-        jMenuBar1.add(jMenu2);
+        itemAvanceTareas.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.ALT_DOWN_MASK));
+        itemAvanceTareas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/avance de tareas.png"))); // NOI18N
+        itemAvanceTareas.setText("Avance y Estado de Tareas");
+        itemAvanceTareas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemAvanceTareasActionPerformed(evt);
+            }
+        });
+        mnModulos.add(itemAvanceTareas);
+
+        itemEstadoProyectos.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.ALT_DOWN_MASK));
+        itemEstadoProyectos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/avance y estado prpyecto.png"))); // NOI18N
+        itemEstadoProyectos.setText("Avance y Estado de Proyectos");
+        itemEstadoProyectos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemEstadoProyectosActionPerformed(evt);
+            }
+        });
+        mnModulos.add(itemEstadoProyectos);
+
+        jMenuBar1.add(mnModulos);
+
+        mnAcercade.setText("Acerca de");
+        mnAcercade.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnAcercadeActionPerformed(evt);
+            }
+        });
+
+        itemAcerca.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.ALT_DOWN_MASK));
+        itemAcerca.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/buscar.png"))); // NOI18N
+        itemAcerca.setText("Acerca de");
+        itemAcerca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemAcercaActionPerformed(evt);
+            }
+        });
+        mnAcercade.add(itemAcerca);
+
+        jMenuBar1.add(mnAcercade);
 
         setJMenuBar(jMenuBar1);
 
@@ -218,21 +265,17 @@ public class FrmSistema extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(54, Short.MAX_VALUE)
+                .addContainerGap(27, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(46, 46, 46))
+                .addGap(37, 37, 37))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem3ActionPerformed
-
-    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem6ActionPerformed
+    private void itemPuestosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemPuestosActionPerformed
+        btnPuestosActionPerformed(evt);
+    }//GEN-LAST:event_itemPuestosActionPerformed
 
     private void btnPuestosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPuestosActionPerformed
         DlgGestionPuestos winPuestos = new DlgGestionPuestos(this, false, listaPuestos);
@@ -274,6 +317,43 @@ public class FrmSistema extends javax.swing.JFrame {
         winAvance.setLocationRelativeTo(this);
         winAvance.setVisible(true);
     }//GEN-LAST:event_btnEstadoTareaActionPerformed
+
+    private void btnEstadoProyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEstadoProyectoActionPerformed
+        DlgAvanceProyecto win = new DlgAvanceProyecto(this, true, listaTareas, listaColab, listaProyectos);
+        win.setTitle("Avance de Proyectos");
+        win.setLocationRelativeTo(this);
+        win.setVisible(true);
+    }//GEN-LAST:event_btnEstadoProyectoActionPerformed
+
+    private void itemColabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemColabActionPerformed
+        btnColabsActionPerformed(evt);
+    }//GEN-LAST:event_itemColabActionPerformed
+
+    private void itemGestionTareasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemGestionTareasActionPerformed
+       btnGestionTareasActionPerformed(evt);
+    }//GEN-LAST:event_itemGestionTareasActionPerformed
+
+    private void itemProyectosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemProyectosActionPerformed
+        btnProyectosActionPerformed(evt);
+    }//GEN-LAST:event_itemProyectosActionPerformed
+
+    private void itemAvanceTareasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAvanceTareasActionPerformed
+        btnEstadoTareaActionPerformed(evt);
+    }//GEN-LAST:event_itemAvanceTareasActionPerformed
+
+    private void itemEstadoProyectosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemEstadoProyectosActionPerformed
+        btnEstadoProyectoActionPerformed(evt);
+    }//GEN-LAST:event_itemEstadoProyectosActionPerformed
+
+    private void mnAcercadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnAcercadeActionPerformed
+
+    }//GEN-LAST:event_mnAcercadeActionPerformed
+
+    private void itemAcercaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAcercaActionPerformed
+        DlgAcercaDe dlg = new DlgAcercaDe(this, true);
+        dlg.setLocationRelativeTo(this);
+        dlg.setVisible(true);
+    }//GEN-LAST:event_itemAcercaActionPerformed
 
     
     @Override
@@ -324,20 +404,21 @@ public class FrmSistema extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnColabs;
+    private javax.swing.JButton btnEstadoProyecto;
     private javax.swing.JButton btnEstadoTarea;
     private javax.swing.JButton btnGestionTareas;
-    private javax.swing.JButton btnPlanillas;
     private javax.swing.JButton btnProyectos;
     private javax.swing.JButton btnPuestos;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuItem itemAcerca;
+    private javax.swing.JMenuItem itemAvanceTareas;
+    private javax.swing.JMenuItem itemColab;
+    private javax.swing.JMenuItem itemEstadoProyectos;
+    private javax.swing.JMenuItem itemGestionTareas;
+    private javax.swing.JMenuItem itemProyectos;
+    private javax.swing.JMenuItem itemPuestos;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JMenu mnAcercade;
+    private javax.swing.JMenu mnModulos;
     // End of variables declaration//GEN-END:variables
 }

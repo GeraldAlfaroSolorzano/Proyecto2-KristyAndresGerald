@@ -7,7 +7,7 @@ import logica.Colaborador;
  * Clase que gestiona el almacenamiento de colaboradores en una lista
  * Permite realizar operaciones CRUD sobre objetos de tipo Colaborador
  * 
- * @author Andres
+ * @author Andres, Gerald, Kristy
  */
 public class AlmacenamientoColab {
 

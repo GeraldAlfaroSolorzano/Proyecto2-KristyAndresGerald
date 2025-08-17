@@ -9,7 +9,7 @@ import logica.TareasDeProyecto;
 
 /**
  * Dialogo de gestion de tareas
- * @author galfa
+ * @author Andres, Gerald, Kristy
  */
 public class DlgGestionTareas extends javax.swing.JDialog {
 

@@ -9,7 +9,7 @@ import logica.TareasDeProyecto;
 
 /**
  *
- * @author galfa
+ * @author Andres, Gerald, Kristy
  */
 public class AlmacenamientoTareas {
     

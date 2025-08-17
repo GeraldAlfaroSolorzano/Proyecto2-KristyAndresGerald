@@ -9,7 +9,7 @@ import logica.Puestos;
  * Dialogo para gestionar puestos permite buscar insertar editar y eliminar registros
  * en la lista de puestos
  * 
- * @author galfa
+ * @author Andres, Gerald, Kristy
  */
 public class DlgGestionPuestos extends javax.swing.JDialog {
 

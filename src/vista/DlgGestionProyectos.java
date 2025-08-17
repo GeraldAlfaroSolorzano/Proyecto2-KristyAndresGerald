@@ -9,7 +9,7 @@ import logica.TareasDeProyecto;
 /**
  * Dialogo de gestion de proyectos Permite visualizar, editar y administrar
  * los datos de los proyectos
- * @author krist
+ * @author Andres, Gerald, Kristy
  */
 
 public class DlgGestionProyectos extends javax.swing.JDialog {
