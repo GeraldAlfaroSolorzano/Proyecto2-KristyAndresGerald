@@ -11,37 +11,37 @@ import java.util.List;
 public class Proyectos {
 
     /** 
-     * Identificador unico del proyecto 
+    * Identificador unico del proyecto 
     */
     private int idProyecto;
 
     /** 
-     * Nombre del proyecto 
+    * Nombre del proyecto 
     */
     private String nomProyecto;
 
     /** 
-     * Fecha de inicio del proyecto 
+    * Fecha de inicio del proyecto 
     */
     private LocalDate fechInicio;
 
     /** 
-     * Fecha de finalizacion del proyecto 
+    * Fecha de finalizacion del proyecto 
     */
     private LocalDate fechFin;
 
     /** 
-     * Duracion del proyecto en dias 
+    * Duracion del proyecto en dias 
     */
     private int duracionDias;
 
     /** 
-     * Estado actual del proyecto 
+    * Estado actual del proyecto 
     */
     private String estado;
 
     /** 
-     * Porcentaje de avance del proyecto 
+    * Porcentaje de avance del proyecto 
     */
     private int porcAvance;
 
@@ -67,7 +67,7 @@ public class Proyectos {
     }
 
     /** 
-     * Constructor vacio 
+    * Constructor vacio 
     */
     public Proyectos() {
         this.idProyecto = 0;
@@ -191,16 +191,60 @@ public class Proyectos {
     public int calcAvance(List<TareasDeProyecto> tareasDelProyecto) {
         if (tareasDelProyecto == null || tareasDelProyecto.isEmpty()) {
             this.porcAvance = 0;
+            this.estado = EstadoTarea.CREADA.name();
             return this.porcAvance;
         }
+
         int suma = 0;
+        int count = 0;
+
         for (TareasDeProyecto t : tareasDelProyecto) {
+            if (t == null) {
+                continue;
+            }
+            // Asegura que cada tarea actualiza su porciento
             t.calcPorcTarea();
-            suma += t.getPorcAvance();
+            int a = t.getPorcAvance();
+            if (a < 0) {
+                a = 0;
+            }
+            if (a > 100) {
+                a = 100;
+            }
+            suma += a;
+            count++;
         }
-        this.porcAvance = suma / tareasDelProyecto.size();
+
+        if (count == 0) {
+            this.porcAvance = 0;
+            this.estado = EstadoTarea.CREADA.name();
+            return this.porcAvance;
+        }
+
+        // Promedio entero del avance de tareas
+        int promedio = Math.round(suma / (float) count);
+
+        // Calculo del avance del proyecto
+        if (promedio <= 0) {
+            this.porcAvance = 0;
+            this.estado = EstadoTarea.CREADA.name();
+        } else if (promedio <= 25) {
+            this.porcAvance = 25;
+            this.estado = EstadoTarea.INICIADA.name();
+        } else if (promedio <= 50) {
+            this.porcAvance = 50;
+            this.estado = EstadoTarea.EN_EJECUCION.name();
+        } else if (promedio < 100) {
+            this.porcAvance = 75;
+            this.estado = EstadoTarea.REVISION.name();
+        } else { 
+            this.porcAvance = 100;
+            this.estado = EstadoTarea.FINALIZADA.name();
+        }
+
         return this.porcAvance;
     }
+
     
     /**
      * Representacion en texto del proyecto

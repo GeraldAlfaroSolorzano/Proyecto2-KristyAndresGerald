@@ -12,9 +12,9 @@ import logica.Proyectos;
 import logica.TareasDeProyecto;
 
 /**
- * Dialogo de gestion de colaboradores Permite visualizar, editar y administrar
- * los datos de los colaboradores registrados 
- * Utiliza instancias de AlmacenamientoColab y AlmacenamientoPuestos para operar sobre los datos
+ * Dialogo de gestion de tareas donde se logra ver el avance de las tareas
+ * por medio un progressbar que muesta inicialmente el promedio de todas la tareas
+ * que se estan haciendo y luego se busca por nombre de tarea por proyecto y colaborador
  *
  * @author Andres
  */
@@ -24,12 +24,27 @@ public class DlgAvanceTareas extends javax.swing.JDialog {
     protected AlmacenamientoColab listaColab;
     protected AlmacenamientoProyectos listaProyectos;
 
+    /**
+     * Constructor basico Inicializa componentes y configura la barra de
+     * progreso
+     * @param parent ventana padre
+     * @param modal indica si es modal
+     */
     public DlgAvanceTareas(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         configurarBarra();
     }
 
+    /**
+     * Constructor con dependencias inicializa componentes inyecta listas y
+     * configura la barra de progreso
+     * @param parent ventana padre
+     * @param modal indica si es modal
+     * @param listaTareas fuente de datos de tareas
+     * @param listaColab fuente de datos de colaboradores
+     * @param listaProyectos fuente de datos de proyectos
+     */
     public DlgAvanceTareas(java.awt.Frame parent, boolean modal, AlmacenamientoTareas listaTareas, AlmacenamientoColab listaColab, AlmacenamientoProyectos listaProyectos) {
         super(parent, modal);
         initComponents();
@@ -224,12 +239,11 @@ public class DlgAvanceTareas extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-   /**
-     * Se ejecuta al activar la ventana 
-     * 
+    /**
+     * Se ejecuta al activar la ventana
+     *
      * @param evt evento de activacion de ventana
      */
-
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         cargarCombos();
         muestraTabla();
@@ -251,6 +265,9 @@ public class DlgAvanceTareas extends javax.swing.JDialog {
         muestraTabla();
     }//GEN-LAST:event_txtBuscarActionPerformed
 
+    /**
+     * Configura la barra de progreso con limites y aspecto inicial
+     */
     private void configurarBarra() {
         barAvance.setMinimum(0);
         barAvance.setMaximum(100);
@@ -259,7 +276,11 @@ public class DlgAvanceTareas extends javax.swing.JDialog {
         barAvance.setString("0 %");
     }
 
-    // Actualiza valor/texto de la barra
+    /**
+     * Actualiza el valor y el texto de la barra de progreso del proyecto el
+     * valor se limita al rango de cero a cien
+     * @param porcentaje porcentaje de avance propuesto
+     */
     private void actualizarBarraProyecto(int porcentaje) {
         int p = porcentaje;
         if (p < 0) {
@@ -274,8 +295,9 @@ public class DlgAvanceTareas extends javax.swing.JDialog {
 
     
     /**
-     * Carga todos los colaboradores en la tabla sin aplicar filtros 
-     * 
+     * Construye el modelo de la tabla aplicando filtros de proyecto colaborador
+     * estado y texto Calcula el promedio de avance y lo refleja en la barra
+     * Cuando las listas no estan listas muestra una tabla vacia
      */
     private void muestraTabla() {
         String[] columnTitles = {
@@ -285,16 +307,17 @@ public class DlgAvanceTareas extends javax.swing.JDialog {
 
         DefaultTableModel tableModel = new DefaultTableModel(null, columnTitles);
 
-        // Validación de listas
+        // Validacion de listas
         if (listaTareas == null || listaProyectos == null || listaColab == null) {
             tblTareas.setModel(tableModel);
             txtCant.setText("0");
-            actualizarBarraProyecto(0); // usar helper, no setear directamente
+            actualizarBarraProyecto(0);
             JOptionPane.showMessageDialog(this, "Listas no inicializadas");
             return;
         }
 
-        // Filtros de combos
+        // Filtros de combos y se usa instanceof para tratar el item dentro
+        //del combobox cuando se ocupa
         Integer filtroIdProyecto = null;
         Object valorProyectoSeleccionado = cmbProyecto.getSelectedItem();
         if (valorProyectoSeleccionado instanceof Proyectos) {
@@ -338,7 +361,7 @@ public class DlgAvanceTareas extends javax.swing.JDialog {
                 continue;
             }
 
-            // Nombres relacionados (no IDs)
+            // Nombres relacionados
             String nombreProyecto = listaProyectos.nombrePorId(tarea.getIdProyecto());
             if (nombreProyecto == null) {
                 nombreProyecto = "";
@@ -413,11 +436,15 @@ public class DlgAvanceTareas extends javax.swing.JDialog {
             promedioAvance = Math.round((float) sumaAvance / (float) cantidadTareas);
         }
 
-        actualizarBarraProyecto(promedioAvance); // <<< ahora sí se usa correctamente
+        actualizarBarraProyecto(promedioAvance);
     }
 
+    /**
+     * Carga opciones en los combos de proyecto colaborador y estado Deja todos
+     * los combos sin seleccion inicial
+     */
     private void cargarCombos() {
-        // --- Proyectos ---
+        // Proyectos
         DefaultComboBoxModel<Proyectos> modeloProy = new DefaultComboBoxModel<>();
         if (listaProyectos != null) {
             java.util.ArrayList<Proyectos> proys = listaProyectos.mostrar();
@@ -431,9 +458,9 @@ public class DlgAvanceTareas extends javax.swing.JDialog {
             }
         }
         cmbProyecto.setModel(modeloProy);
-        cmbProyecto.setSelectedIndex(-1); // sin selección por defecto
+        cmbProyecto.setSelectedIndex(-1); 
 
-        // --- Colaboradores ---
+        //Colaboradores
         DefaultComboBoxModel<Colaborador> modeloCol = new DefaultComboBoxModel<>();
         if (listaColab != null) {
             java.util.ArrayList<Colaborador> cols = listaColab.getArrayColab();
@@ -447,12 +474,12 @@ public class DlgAvanceTareas extends javax.swing.JDialog {
             }
         }
         cmbColab.setModel(modeloCol);
-        cmbColab.setSelectedIndex(-1); // sin selección por defecto
+        cmbColab.setSelectedIndex(-1); 
 
-        // --- Estados ---
+        // Estados
         DefaultComboBoxModel<EstadoTarea> modeloEst = new DefaultComboBoxModel<>(EstadoTarea.values());
         cmbEstado.setModel(modeloEst);
-        cmbEstado.setSelectedIndex(-1); // sin selección por defecto
+        cmbEstado.setSelectedIndex(-1);
     }
     
 

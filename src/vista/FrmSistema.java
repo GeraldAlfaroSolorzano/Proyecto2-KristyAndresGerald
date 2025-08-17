@@ -13,7 +13,7 @@ import java.awt.Toolkit;
 
 /**
  *
- * @author jonat
+ * @author galfa
  */
 public class FrmSistema extends javax.swing.JFrame {
 

@@ -19,9 +19,6 @@ public class DlgGestionColaboradores extends javax.swing.JDialog {
     protected AlmacenamientoPuestos listaPuestos;
     private DefaultTableModel tblModel;
 
-    protected int cedJefe;
-    protected String nombreJefe;
-
     /**
      * Crea una nueva instancia del dialogo
      *
@@ -257,11 +254,10 @@ public class DlgGestionColaboradores extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "No se encontro el colaborador");
             return;
         }
-        // calcular posicion en la lista
+        // Calcular posicion en la lista
         int pos = listaColab.getArrayColab().indexOf(colab);
 
-        DlgNuevoColaborador winEditar =
-            new DlgNuevoColaborador(null, true, listaColab, colab, pos, listaPuestos);
+        DlgNuevoColaborador winEditar = new DlgNuevoColaborador(null, true, listaColab, colab, pos, listaPuestos);
 
         winEditar.setTitle("Editar Colaborador");
         winEditar.setLocationRelativeTo(null);
@@ -285,7 +281,12 @@ public class DlgGestionColaboradores extends javax.swing.JDialog {
         String filtro = txtBuscar.getText().toLowerCase();
 
         for (Colaborador colab : listaColab.getArrayColab()) {
-            String nomPuesto = (colab.getPuesto() != null) ? colab.getPuesto().getNomPuesto() : "";
+            String nomPuesto;
+            if (colab.getPuesto() != null && colab.getPuesto().getNomPuesto() != null) {
+                nomPuesto = colab.getPuesto().getNomPuesto();
+            } else {
+                nomPuesto = "";
+            }
             if (String.valueOf(colab.getCedula()).contains(filtro)
                     || colab.getNombre().toLowerCase().contains(filtro)
                     || nomPuesto.toLowerCase().contains(filtro)) {
@@ -319,7 +320,12 @@ public class DlgGestionColaboradores extends javax.swing.JDialog {
         tblModel = new DefaultTableModel(null, titulo);
 
         for (Colaborador c : listaColab.getArrayColab()) {
-            String nomPuesto = (c.getPuesto() != null) ? c.getPuesto().getNomPuesto() : "";
+            String nomPuesto;
+            if (c.getPuesto() != null && c.getPuesto().getNomPuesto() != null) {
+                nomPuesto = c.getPuesto().getNomPuesto();
+            } else {
+                nomPuesto = "";
+            }
             Object row[] = {
                 c.getCedula(),
                 c.getNombre(),

@@ -348,15 +348,12 @@ public class DlgGestionTareas extends javax.swing.JDialog {
         };
 
         DefaultTableModel model = new DefaultTableModel(null, titulo);
-
-        // valida dependencias
         if (listaTareas == null || listaProyectos == null || listaColab == null) {
             tblTareas.setModel(model);
             txtCant.setText("0");
             return;
         }
 
-        // recorre y arma filas
         for (TareasDeProyecto tarea : listaTareas.mostrar()) {
 
             String nombreProyecto = listaProyectos.nombrePorId(tarea.getIdProyecto());
@@ -388,7 +385,6 @@ public class DlgGestionTareas extends javax.swing.JDialog {
             model.addRow(row);
         }
 
-        // aplica al JTable y contador
         tblTareas.setModel(model);
         txtCant.setText(Integer.toString(model.getRowCount()));
     }

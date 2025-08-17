@@ -18,7 +18,6 @@ public class DlgGestionPuestos extends javax.swing.JDialog {
 
     /**
      * Constructor del dialogo sin datos iniciales
-     *
      * @param parent ventana principal
      * @param modal indica si el dialogo es modal
      */
@@ -29,7 +28,6 @@ public class DlgGestionPuestos extends javax.swing.JDialog {
 
     /**
      * Constructor del dialogo con lista de puestos
-     *
      * @param parent ventana principal
      * @param modal indica si el dialogo es modal
      * @param listaPuestos lista de puestos a gestionar

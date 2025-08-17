@@ -7,7 +7,6 @@ import logica.Puestos;
 /**
  * Dialogo para crear o editar un puesto
  * Permite ingresar un nuevo registro o modificar uno existente
- * 
  * @author galfa
  */
 public class DlgNuevoPuesto extends javax.swing.JDialog {
@@ -17,7 +16,6 @@ public class DlgNuevoPuesto extends javax.swing.JDialog {
 
     /**
      * Constructor del dialogo sin datos iniciales
-     *
      * @param parent ventana principal
      * @param modal indica si el dialogo es modal
      */
@@ -28,7 +26,6 @@ public class DlgNuevoPuesto extends javax.swing.JDialog {
 
     /**
      * Constructor para registrar un nuevo puesto
-     *
      * @param parent ventana principal
      * @param modal indica si el dialogo es modal
      * @param listaPuestos lista de puestos a la que se agregara el nuevo
@@ -42,7 +39,6 @@ public class DlgNuevoPuesto extends javax.swing.JDialog {
 
     /**
      * Constructor para editar un puesto existente
-     *
      * @param parent ventana principal
      * @param modal indica si el dialogo es modal
      * @param listaPuestos lista de puestos
@@ -237,8 +233,8 @@ public class DlgNuevoPuesto extends javax.swing.JDialog {
             }
             JOptionPane.showMessageDialog(this, "Puesto agregado con exito");
             dispose();
-        } else { // editar
-            Puestos cambios = new Puestos(id, nombre, salario); // el id no cambia
+        } else { 
+            Puestos cambios = new Puestos(id, nombre, salario); 
             boolean ok = listaPuestos.modificar(puestoEdicion.getIdPuesto(), cambios);
             if (!ok) {
                 JOptionPane.showMessageDialog(this, "No se pudo modificar el puesto");

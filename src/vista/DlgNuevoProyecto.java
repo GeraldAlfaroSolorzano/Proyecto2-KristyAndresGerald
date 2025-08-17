@@ -72,8 +72,6 @@ public class DlgNuevoProyecto extends javax.swing.JDialog {
         txtNombre = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        lblEstado = new javax.swing.JLabel();
-        cmbEstado = new javax.swing.JComboBox<>();
         dtpInicio = new com.github.lgooddatepicker.components.DatePicker();
         dtpFin = new com.github.lgooddatepicker.components.DatePicker();
         lblDuracion = new javax.swing.JLabel();
@@ -106,14 +104,6 @@ public class DlgNuevoProyecto extends javax.swing.JDialog {
 
         jLabel2.setText("Fecha fin");
 
-        lblEstado.setText("Estado");
-
-        cmbEstado.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmbEstadoActionPerformed(evt);
-            }
-        });
-
         lblDuracion.setText("Duración de Días");
         lblDuracion.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
@@ -122,38 +112,28 @@ public class DlgNuevoProyecto extends javax.swing.JDialog {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(31, 31, 31)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(31, 31, 31)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(lblNombre)
-                                .addComponent(lblId))
-                            .addComponent(lblDuracion, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(68, 68, 68)
-                        .addComponent(lblEstado)))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(lblNombre)
+                        .addComponent(lblId))
+                    .addComponent(lblDuracion, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDuracion, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 39, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(cmbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jLabel2)
+                        .addGap(33, 33, 33)
+                        .addComponent(dtpFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtDuracion, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 39, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(33, 33, 33)
-                                .addComponent(dtpFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(18, 18, 18)
-                                .addComponent(dtpInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(16, Short.MAX_VALUE))))
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(dtpInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -180,11 +160,7 @@ public class DlgNuevoProyecto extends javax.swing.JDialog {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(dtpFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2))))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblEstado)
-                    .addComponent(cmbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -259,17 +235,16 @@ public class DlgNuevoProyecto extends javax.swing.JDialog {
         if (txtId.getText().isBlank()
                 || txtNombre.getText().isBlank()
                 || dtpInicio.getDate() == null
-                || dtpFin.getDate() == null
-                || cmbEstado.getSelectedIndex() < 0) {
-            JOptionPane.showMessageDialog(this, "Hay campos vacios");
+                || dtpFin.getDate() == null) {
+            JOptionPane.showMessageDialog(this, "Hay campos vacíos");
             return;
         }
 
-        int id;
+        final int id;
         try {
             id = Integer.parseInt(txtId.getText().trim());
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "ID debe ser numerico");
+            JOptionPane.showMessageDialog(this, "ID debe ser numérico");
             return;
         }
 
@@ -278,17 +253,19 @@ public class DlgNuevoProyecto extends javax.swing.JDialog {
 
         String nombre = txtNombre.getText().trim();
         int duracionDias = calcularDuracionDias();
-        String estado = cmbEstado.getSelectedItem().toString();
 
         if (proyectoEdicion == null) {
-            if (listaProyectos.buscar(id) != null) {
+            if (listaProyectos != null && listaProyectos.buscar(id) != null) {
                 JOptionPane.showMessageDialog(this, "El ID de proyecto ya existe");
                 txtId.requestFocus();
                 txtId.selectAll();
                 return;
             }
-            Proyectos nuevo = new Proyectos(id, nombre, inicio, fin, duracionDias, estado, 0);
-            listaProyectos.insertar(nuevo);
+            // Estado por defecto el avance se calcula por tareas
+            Proyectos nuevo = new Proyectos(id, nombre, inicio, fin, duracionDias, "Planificado", 0);
+            if (listaProyectos != null) {
+                listaProyectos.insertar(nuevo);
+            }
             JOptionPane.showMessageDialog(this, "Proyecto agregado con exito");
             dispose();
         } else {
@@ -298,10 +275,10 @@ public class DlgNuevoProyecto extends javax.swing.JDialog {
                     inicio,
                     fin,
                     duracionDias,
-                    estado,
+                    proyectoEdicion.getEstado(),
                     proyectoEdicion.getPorcAvance()
             );
-            boolean ok = listaProyectos.modificar(modificado);
+            boolean ok = listaProyectos != null && listaProyectos.modificar(modificado);
             if (!ok) {
                 JOptionPane.showMessageDialog(this, "No se pudo modificar el proyecto");
                 return;
@@ -312,12 +289,6 @@ public class DlgNuevoProyecto extends javax.swing.JDialog {
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-        // cargar enum en el combo
-        cmbEstado.removeAllItems();
-        for (EstadoTarea e : EstadoTarea.values()) {
-            cmbEstado.addItem(e.name());
-        }
-
         if (proyectoEdicion != null) {
             txtId.setText(String.valueOf(proyectoEdicion.getIdProyecto()));
             txtId.setEnabled(false);
@@ -329,27 +300,6 @@ public class DlgNuevoProyecto extends javax.swing.JDialog {
             if (proyectoEdicion.getFechFin() != null) {
                 dtpFin.setDate(proyectoEdicion.getFechFin());
             }
-
-            String estadoActual = "";
-            if (proyectoEdicion.getEstado() != null) {
-                estadoActual = proyectoEdicion.getEstado();
-            }
-
-            boolean seleccionado = false;
-            for (int i = 0; i < cmbEstado.getItemCount(); i++) {
-                String item = cmbEstado.getItemAt(i);
-                if (item != null && item.equalsIgnoreCase(estadoActual)) {
-                    cmbEstado.setSelectedIndex(i);
-                    seleccionado = true;
-                    break;
-                }
-            }
-            if (!seleccionado) {
-                if (cmbEstado.getItemCount() > 0) {
-                    cmbEstado.setSelectedIndex(0);
-                }
-            }
-
             txtDuracion.setText(String.valueOf(calcularDuracionDias()));
         } else {
             txtId.setEnabled(true);
@@ -358,20 +308,12 @@ public class DlgNuevoProyecto extends javax.swing.JDialog {
             dtpInicio.setDate(null);
             dtpFin.setDate(null);
             txtDuracion.setText("0");
-
-            if (cmbEstado.getItemCount() > 0) {
-                cmbEstado.setSelectedIndex(0);
-            }
         }
     }//GEN-LAST:event_formWindowActivated
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
-
-    private void cmbEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbEstadoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cmbEstadoActionPerformed
 
     /**
      * Calcula la duracion en dias entre inicio y fin de forma inclusiva
@@ -380,19 +322,15 @@ public class DlgNuevoProyecto extends javax.swing.JDialog {
     private int calcularDuracionDias() {
         LocalDate inicio = dtpInicio.getDate();
         LocalDate fin = dtpFin.getDate();
-
         if (inicio == null || fin == null) {
             return 0;
         }
 
         long dias = ChronoUnit.DAYS.between(inicio, fin) + 1;
-
         if (dias < 0) {
             dias = 0;
         }
-
-        int resultado = (int) dias;
-        return resultado;
+        return (int) dias;
     }
 
     /**
@@ -455,7 +393,6 @@ public class DlgNuevoProyecto extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnGuardar;
-    private javax.swing.JComboBox<String> cmbEstado;
     private com.github.lgooddatepicker.components.DatePicker dtpFin;
     private com.github.lgooddatepicker.components.DatePicker dtpInicio;
     private javax.swing.JLabel jLabel1;
@@ -463,7 +400,6 @@ public class DlgNuevoProyecto extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblDuracion;
-    private javax.swing.JLabel lblEstado;
     private javax.swing.JLabel lblId;
     private javax.swing.JLabel lblNombre;
     private javax.swing.JTextField txtDuracion;

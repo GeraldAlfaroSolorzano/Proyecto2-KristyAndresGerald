@@ -39,7 +39,7 @@ public class DlgNuevaTarea extends javax.swing.JDialog {
      * @param modal indica si el dialogo es modal
      * @param listaTareas almacenamiento de tareas
      * @param listaColab almacenamiento de colaboradores
-     * @param listaPuestos almacenamiento de puestos
+     * @param listaProyectos
      */
     public DlgNuevaTarea(java.awt.Frame parent, boolean modal, AlmacenamientoTareas listaTareas, AlmacenamientoColab listaColab, AlmacenamientoProyectos listaProyectos) {
         super(parent, modal);
@@ -56,7 +56,7 @@ public class DlgNuevaTarea extends javax.swing.JDialog {
      * @param modal indica si el dialogo es modal
      * @param listaTareas almacenamiento de tareas
      * @param listaColab almacenamiento de colaboradores
-     * @param listaPuestos almacenamiento de puestos
+     * @param listaProyectos
      * @param tareaEditar tarea que se edita
      */
     public DlgNuevaTarea(java.awt.Frame parent, boolean modal, AlmacenamientoTareas listaTareas, AlmacenamientoColab listaColab, AlmacenamientoProyectos listaProyectos, TareasDeProyecto tareaEditar) {
@@ -320,7 +320,7 @@ public class DlgNuevaTarea extends javax.swing.JDialog {
      * @param evt evento de boton guardar
      */
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        // validacion de campos
+
         if (txtId.getText().isBlank()) {
             JOptionPane.showMessageDialog(this, "Debe indicar el ID");
             return;
@@ -380,7 +380,7 @@ public class DlgNuevaTarea extends javax.swing.JDialog {
 
             int duracion = (int) ChronoUnit.DAYS.between(fechaIni, fechaFin) + 1;
 
-            // construir tarea nueva
+            // Construir tarea nueva
             TareasDeProyecto tarea = new TareasDeProyecto();
             tarea.setIdTarea(idTarea);
             tarea.setNomTarea(nombre);
@@ -394,7 +394,7 @@ public class DlgNuevaTarea extends javax.swing.JDialog {
             txtDuracion.setText(String.valueOf(duracion));
             txtAvance.setText(String.valueOf(tarea.getPorcAvance()));
 
-            // reglas de validacion
+            // Reglas de validacion
             if (!tarea.verificarColaborador(tarea.getIdColaborador(), listaColab)) {
                 JOptionPane.showMessageDialog(this, "El colaborador no existe");
                 return;
@@ -404,9 +404,9 @@ public class DlgNuevaTarea extends javax.swing.JDialog {
                 return;
             }
 
-            // guardar o editar la tarea
+            // Editar la tarea
             boolean esEdicion = (tareaEdicion != null);
-            if (!esEdicion) { // guardar
+            if (!esEdicion) { 
                 boolean ok = listaTareas.insertar(tarea);
                 if (!ok) {
                     JOptionPane.showMessageDialog(this, "El id de tarea ya existe");
@@ -414,7 +414,7 @@ public class DlgNuevaTarea extends javax.swing.JDialog {
                 }
                 JOptionPane.showMessageDialog(this, "Tarea agregada con exito");
                 this.dispose();
-            } else { // editar
+            } else { 
                 boolean ok = listaTareas.modificar(tareaEdicion.getIdTarea(), tarea);
                 if (!ok) {
                     JOptionPane.showMessageDialog(this, "No se pudo modificar la tarea");
@@ -435,7 +435,6 @@ public class DlgNuevaTarea extends javax.swing.JDialog {
      */
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         cargarCombos();
-
         if (tareaEdicion != null) {
             txtId.setText(String.valueOf(tareaEdicion.getIdTarea()));
             txtId.setEnabled(false);
@@ -493,7 +492,7 @@ public class DlgNuevaTarea extends javax.swing.JDialog {
      * @param evt combobox de EstadoTareas
      */
     private void cmbEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbEstadoActionPerformed
-        // cuando cambia el estado este muestra el avance que tiene que ser
+        // Cuando cambia el estado este muestra el avance que tiene que ser
         if (cmbEstado.getSelectedIndex() == -1) {
             txtAvance.setText("");
             return;

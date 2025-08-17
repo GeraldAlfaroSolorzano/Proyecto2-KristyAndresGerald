@@ -7,6 +7,7 @@ import logica.Puestos;
  *
  * @author galfa
  */
+
 /**
  * Clase donde se crea el almacenamiento de puestos
  */
@@ -41,7 +42,6 @@ public class AlmacenamientoPuestos {
     // CRUD
     /**
      * Inserta un puesto validando que el ID sea unico
-     *
      * @param puesto Puesto a insertar
      * @return true si se inserto o false si es nulo o ID repetido
      */
@@ -60,7 +60,6 @@ public class AlmacenamientoPuestos {
 
     /**
      * Busca un puesto por su ID
-     *
      * @param idPuesto ID a buscar
      * @return Puesto encontrado o null si no existe
      */
@@ -84,7 +83,6 @@ public class AlmacenamientoPuestos {
 
     /**
      * Modifica nombre y salario de un puesto por su ID
-     *
      * @param idPuesto ID del puesto a modificar
      * @param nuevo Datos actualizados del puesto
      * @return true si se modifico o false si no existe
@@ -106,7 +104,6 @@ public class AlmacenamientoPuestos {
 
     /**
      * Elimina un puesto por su ID
-     *
      * @param idPuesto ID del puesto a eliminar
      * @return true si se elimino o false si no existe
      */
@@ -122,7 +119,6 @@ public class AlmacenamientoPuestos {
 
     /**
      * Muestra todos los puestos registrados
-     *
      * @return Lista de puestos
      */
     public ArrayList<Puestos> mostrar() {

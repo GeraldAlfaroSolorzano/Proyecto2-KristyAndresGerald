@@ -5,6 +5,7 @@ import datos.AlmacenamientoTareas;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import logica.Proyectos;
+import logica.TareasDeProyecto;
 /**
  * Dialogo de gestion de proyectos Permite visualizar, editar y administrar
  * los datos de los proyectos
@@ -30,11 +31,9 @@ public class DlgGestionProyectos extends javax.swing.JDialog {
     }
 
     /**
-     * Constructor completo (usado cuando quieres compartir las mismas listas).
+     * Constructor completo
      */
-    public DlgGestionProyectos(java.awt.Frame parent, boolean modal,
-            AlmacenamientoProyectos listaProyectos,
-            AlmacenamientoTareas listaTareas) {
+    public DlgGestionProyectos(java.awt.Frame parent, boolean modal, AlmacenamientoProyectos listaProyectos, AlmacenamientoTareas listaTareas) {
         super(parent, modal);
         initComponents();
         this.listaProyectos = listaProyectos;
@@ -297,13 +296,8 @@ public class DlgGestionProyectos extends javax.swing.JDialog {
             if (coincide) {
                 int avanceMostrado = 0;
                 if (listaTareas != null) {
-                    // Calcula el avance del proyecto a partir de sus tareas
-                    avanceMostrado = proyecto.calcAvance(
-                            listaTareas.listarPorProyecto(proyecto.getIdProyecto())
-                    );
-                } else {
-                    // Si no tienes listaTareas, muestra el valor almacenado en el proyecto
-                    avanceMostrado = proyecto.getPorcAvance();
+                    java.util.ArrayList<TareasDeProyecto> tareas = listaTareas.listarPorProyecto(proyecto.getIdProyecto());
+                    avanceMostrado = proyecto.calcAvance(tareas); 
                 }
 
                 Object[] row = {
@@ -320,7 +314,7 @@ public class DlgGestionProyectos extends javax.swing.JDialog {
         }
 
         tblProyectos.setModel(tblModel);
-        txtCant.setText(String.valueOf(tblProyectos.getRowCount()));
+        txtCant.setText(String.valueOf((char) tblProyectos.getRowCount()));
     }//GEN-LAST:event_txtBuscarKeyReleased
 
 
@@ -340,13 +334,9 @@ public class DlgGestionProyectos extends javax.swing.JDialog {
         for (Proyectos proyecto : listaProyectos.mostrar()) {
             int avanceMostrado = 0;
             if (listaTareas != null) {
-                // Calcula el avance del proyecto a partir de sus tareas
-                avanceMostrado = proyecto.calcAvance(
-                        listaTareas.listarPorProyecto(proyecto.getIdProyecto())
-                );
-            } else {
-                // Si no tienes listaTareas, muestra el valor almacenado en el proyecto
-                avanceMostrado = proyecto.getPorcAvance();
+                java.util.ArrayList<TareasDeProyecto> tareas
+                        = listaTareas.listarPorProyecto(proyecto.getIdProyecto());
+                avanceMostrado = proyecto.calcAvance(tareas); 
             }
 
             Object[] row = {
@@ -355,8 +345,8 @@ public class DlgGestionProyectos extends javax.swing.JDialog {
                 proyecto.getFechInicio(),
                 proyecto.getFechFin(),
                 proyecto.getDuracionDias(),
-                proyecto.getEstado(),
-                avanceMostrado
+                proyecto.getEstado(), 
+                avanceMostrado 
             };
             tblModel.addRow(row);
         }
